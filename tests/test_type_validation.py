@@ -50,7 +50,7 @@ def are_they_equal(observed, expected):
 
 
 def check_list_of_types(observed, expected_to_match, expected_to_fail):
-    expected_to_match += [object, np.object, Any]
+    expected_to_match += [object, np.object_, Any]
     matches = pd.Series([are_they_equal(observed, expected) for expected in expected_to_match])
     assert matches.dropna().all()
 
@@ -59,16 +59,16 @@ def check_list_of_types(observed, expected_to_match, expected_to_fail):
 
 
 def test_numeric_base_python_types():
-    check_list_of_types(int, [np.int64, np.int, np.integer, int], [float, np.float])
-    check_list_of_types(float, [np.float64, np.float, float], [int, np.int])
-    check_list_of_types(bool, [np.bool, bool], [int, np.int])
+    check_list_of_types(int, [np.int64, np.int_, np.integer, int], [float, np.float])
+    check_list_of_types(float, [np.float64, np.float_, float], [int, np.int_])
+    check_list_of_types(bool, [np.bool_, bool], [int, np.int_])
 
 
 def test_numpy_types():
-    check_list_of_types(np.int64, [np.int64, np.int, np.integer, int], [float, np.float])
-    check_list_of_types(np.float64, [np.float64, np.float, float], [int, np.int])
-    check_list_of_types(np.bool, [np.bool, bool], [int, np.int])
-    check_list_of_types(np.datetime64, [np.datetime64], [np.timedelta64, DatetimeTZDtype(tz="UTC"), np.int])
+    check_list_of_types(np.int64, [np.int64, np.int_, np.integer, int], [float, np.float_])
+    check_list_of_types(np.float64, [np.float64, np.float_, float], [int, np.int_])
+    check_list_of_types(np.bool, [np.bool_, bool], [int, np.int_])
+    check_list_of_types(np.datetime64, [np.datetime64], [np.timedelta64, DatetimeTZDtype(tz="UTC"), np.int_])
     check_list_of_types(np.timedelta64, [np.timedelta64], [np.datetime64, np.int64])
 
 
@@ -106,9 +106,9 @@ def test_strings():
 
 
 def test_any():
-    check_list_of_types(Any, [], [int, np.int])
-    check_list_of_types(object, [], [int, np.int])
-    check_list_of_types(np.object, [], [int, np.int])
+    check_list_of_types(Any, [], [int, np.int_])
+    check_list_of_types(object, [], [int, np.int_])
+    check_list_of_types(np.object, [], [int, np.int_])
 
 
 class DataSchema:
@@ -131,7 +131,7 @@ def test_supported_index_data_type():
 
 
 def test_unsupported_index_data_type():
-    dtypes = [bool, np.bool, SparseDtype(dtype=np.int64), Int64Dtype, BooleanDtype, StringDtype]
+    dtypes = [bool, np.bool_, SparseDtype(dtype=np.int64), Int64Dtype, BooleanDtype, StringDtype]
     for dtype in dtypes:
         class IndexSchema:
             a: dtype
