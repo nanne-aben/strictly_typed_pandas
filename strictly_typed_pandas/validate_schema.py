@@ -53,7 +53,7 @@ def _check_dtypes(schema_expected: Dict[str, Any], schema_observed: Dict[str, An
     for name, dtype_expected in schema_expected.items():
         dtype_observed = schema_observed[name]
 
-        if dtype_expected in [object, Any]:
+        if dtype_expected in [object, np.object_, Any]:
             continue
 
         if dtype_expected == str and dtype_observed == object:
