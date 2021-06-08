@@ -31,3 +31,7 @@ jobs:
         run: |
           coverage run -m pytest --typeguard-packages=strictly_typed_pandas,tests
           coverage report -m
+      - name: Test with old version of pandas 
+        run: |
+          pip install pandas==O.23.0
+          pytest --typeguard-packages=strictly_typed_panda,tests
