@@ -16,7 +16,7 @@ def check_for_duplicate_columns(names_index: Set[str], names_data: Set[str]) -> 
 
 
 def check_index_for_unsupported_datatypes(schema: Dict[str, Any]) -> None:
-    unsupported_dtypes = [bool, np.bool, Int64Dtype, BooleanDtype, StringDtype]
+    unsupported_dtypes = [bool, np.bool, Int64Dtype, BooleanDtype, StringDtype]  # type: ignore
     dtypes = [dtype for _, dtype in schema.items() if dtype in unsupported_dtypes or isinstance(dtype, SparseDtype)]
     if len(dtypes) > 0:
         msg = (
@@ -62,7 +62,7 @@ def _check_dtypes(schema_expected: Dict[str, Any], schema_observed: Dict[str, An
         if dtype_expected == str and isinstance(dtype_observed, StringDtype):
             continue  # since np.int64 == int, I'd say we should also support pd.StringDtype == str
 
-        if isinstance(dtype_observed, np.dtype) and dtype_observed != np.object:
+        if isinstance(dtype_observed, np.dtype) and dtype_observed != np.object:  # type: ignore
             if dtype_observed == dtype_expected or np.issubdtype(dtype_observed, dtype_expected):
                 continue
 
