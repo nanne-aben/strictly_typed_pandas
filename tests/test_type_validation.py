@@ -50,7 +50,7 @@ def are_they_equal(observed, expected):
 
 
 def check_list_of_types(observed, expected_to_match, expected_to_fail):
-    expected_to_match += [object, np.object_, Any]
+    expected_to_match += [object, Any]
     matches = pd.Series([are_they_equal(observed, expected) for expected in expected_to_match])
     assert matches.dropna().all()
 
