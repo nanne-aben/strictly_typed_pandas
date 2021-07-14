@@ -2,7 +2,7 @@ import pandas as pd
 import inspect
 
 from abc import ABC, abstractmethod
-from typing import Any, Generic, TypeVar, get_type_hints
+from typing import Any, Union, Callable, Generic, TypeVar, Tuple, get_type_hints, overload
 
 from strictly_typed_pandas.immutable import (
     _ImmutableiLocIndexer, _ImmutableLocIndexer, immutable_error_msg, inplace_argument_interceptor
@@ -110,14 +110,16 @@ class IndexedDataSet(Generic[T, V], DataSetBase):
     class DataSchema:
         b: str
 
-    DataSet[IndexSchema, DataSchema](
-        {
-            "a": [1, 2, 3],
-            "b": ["1", "2", "3"]
-        }
+    df = (
+        pd.DataFrame(
+            {
+                "a": [1, 2, 3],
+                "b": ["1", "2", "3"]
+            }
+        )
+        .set_index(["a"])
+        .pipe(IndexedDataSet[IndexSchema, DataSchema])
     )
-
-    IndexedDataSet is a subclass of pd.DataFrame, hence it is initialized with the same parameters as a DataFrame.
     '''
     def _continue_initialization(self) -> None:
         schema_index_expected = get_type_hints(self._schema_annotations[0])
