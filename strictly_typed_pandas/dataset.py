@@ -2,7 +2,7 @@ import pandas as pd
 import inspect
 
 from abc import ABC, abstractmethod
-from typing import Any, Union, Callable, Generic, TypeVar, Tuple, get_type_hints, overload
+from typing import Any, Generic, TypeVar, get_type_hints
 
 from strictly_typed_pandas.immutable import (
     _ImmutableiLocIndexer, _ImmutableLocIndexer, immutable_error_msg, inplace_argument_interceptor
@@ -68,9 +68,15 @@ class DataSetBase(pd.DataFrame, ABC):
         pass  # pragma: no cover
 
     def to_dataframe(self) -> pd.DataFrame:
+        '''
+        Converts the object to a pandas `DataFrame`.
+        '''
         return pd.DataFrame(self)
 
     def to_frame(self) -> pd.DataFrame:
+        '''
+        Synonym of to to_dataframe(): converts the object to a pandas `DataFrame`.
+        '''
         return self.to_dataframe()
 
 
@@ -80,15 +86,36 @@ V = TypeVar("V")
 
 class DataSet(Generic[T], DataSetBase):
     '''
-    DataSet allows for static type checking of pandas DataFrames, for example:
+    `DataSet` allows for static type checking of pandas DataFrames, for example:
 
-    class Schema:
-        a: int
+    .. code-block:: python
 
-    DataSet[Schema]({"a": [1, 2, 3]})
+        class Schema:
+            a: int
 
-    DataSet is a subclass of pd.DataFrame, hence it is initialized with the same parameters as a DataFrame.
+        DataSet[Schema]({"a": [1, 2, 3]})
+
+    Where `DataSet`:
+
+    * is a subclass of `pd.DataFrame` and hence has the same functionality as `DataFrame`.
+
+    * validates whether the data adheres to the provided schema upon its initialization.
+
+    * is immutable, so its schema cannot be changed using inplace modifications.
+
+    The `DataSet[Schema]` annotations are compatible with:
+
+    * `mypy` for type checking during linting-time (i.e. while you write your code).
+
+    * `typeguard` for type checking during run-time (i.e. while you run your unit tests).
     '''
+    def __init__(self, *args, **kwargs) -> None:
+        '''
+        `DataSet` is a subclass of `pd.DataFrame`, hence it is initialized with the same parameters as a `DataFrame`.
+        See the Pandas `DataFrame` documentation for more information.
+        '''
+        super().__init__(*args, **kwargs)
+
     def _continue_initialization(self) -> None:
         schema_expected = get_type_hints(self._schema_annotations[0])
 
@@ -102,25 +129,48 @@ class DataSet(Generic[T], DataSetBase):
 
 class IndexedDataSet(Generic[T, V], DataSetBase):
     '''
-    IndexedDataSet allows for static type checking of indexed pandas DataFrames, for example:
+    `IndexedDataSet` allows for static type checking of indexed pandas DataFrames, for example:
 
-    class IndexSchema:
-        a: int
+    .. code-block:: text
 
-    class DataSchema:
-        b: str
+        class IndexSchema:
+            a: int
 
-    df = (
-        pd.DataFrame(
-            {
-                "a": [1, 2, 3],
-                "b": ["1", "2", "3"]
-            }
+        class DataSchema:
+            b: str
+
+        df = (
+            pd.DataFrame(
+                {
+                    "a": [1, 2, 3],
+                    "b": ["1", "2", "3"]
+                }
+            )
+            .set_index(["a"])
+            .pipe(IndexedDataSet[IndexSchema, DataSchema])
         )
-        .set_index(["a"])
-        .pipe(IndexedDataSet[IndexSchema, DataSchema])
-    )
+
+    Where `IndexedDataSet`:
+
+    * is a subclass of `pd.DataFrame` and hence has the same functionality as `DataFrame`.
+
+    * validates whether the data adheres to the provided schema upon its initialization.
+
+    * is immutable, so its schema cannot be changed using inplace modifications.
+
+    The `DataSet[Schema]` annotations are compatible with:
+
+    * `mypy` for type checking during linting-time (i.e. while you write your code).
+
+    * `typeguard` for type checking during run-time (i.e. while you run your unit tests).
     '''
+    def __init__(self, *args, **kwargs) -> None:
+        '''
+        `IndexedDataSet` is a subclass of `pd.DataFrame`, hence it is initialized with the same parameters as a
+        `DataFrame`. See the pandas `DataFrame` documentation for more information.
+        '''
+        super().__init__(*args, **kwargs)
+
     def _continue_initialization(self) -> None:
         schema_index_expected = get_type_hints(self._schema_annotations[0])
         schema_data_expected = get_type_hints(self._schema_annotations[1])
