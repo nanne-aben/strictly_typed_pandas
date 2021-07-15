@@ -60,11 +60,11 @@ For now, please install `strictly_typed_pandas` directly from Github.
 Example notebooks
 =================
 
-* `Getting started <notebooks/getting_started.ipynb>`
+* `Getting started <notebooks/getting_started.ipynb>`_
 
-* `Advanced <notebooks/advanced.ipynb>`
+* `Advanced <notebooks/advanced.ipynb>`_
 
-* `Deepdive into data types <notebooks/deepdive_into_dtypes.ipynb>`
+* `Deepdive into data types <notebooks/deepdive_into_dtypes.ipynb>`_
 
 FAQ
 ===
