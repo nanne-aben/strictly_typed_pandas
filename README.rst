@@ -50,11 +50,9 @@ For now, please install `strictly_typed_pandas` directly from Github.
     pip install git+https://github.com/nanne-aben/strictly_typed_pandas
 
 
-Example notebooks
+Documentation
 =================
-|  -- `Getting started <notebooks/getting_started.ipynb>`_
-|  -- `Advanced <notebooks/advanced.ipynb>`_
-|  -- `Deepdive into data types <notebooks/deepdive_into_dtypes.ipynb>`_
+For example notebooks and API documentation, please see our `ReadTheDocs <https://strictly-typed-pandas.readthedocs.io/>`_.
 
 FAQ
 ===
