@@ -13,7 +13,7 @@ def get_long_description():
 
 setup(
     name="strictly_typed_pandas",
-    version="0.1.0",
+    version="0.1.1",
     url="https://github.com/nanne-aben/strictly_typed_pandas",
     license="MIT",
     author="Nanne Aben",
