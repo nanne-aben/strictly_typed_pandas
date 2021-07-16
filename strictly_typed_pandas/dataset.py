@@ -99,16 +99,14 @@ class DataSet(Generic[T], DataSetBase):
 
         DataSet[Schema]({"a": [1, 2, 3]})
 
-    Where `DataSet`:
+    | Where `DataSet`:
+    |  -- is a subclass of `pd.DataFrame` and hence has the same functionality as `DataFrame`.
+    |  -- validates whether the data adheres to the provided schema upon its initialization.
+    |  -- is immutable, so its schema cannot be changed using inplace modifications.
 
-        * is a subclass of `pd.DataFrame` and hence has the same functionality as `DataFrame`.
-        * validates whether the data adheres to the provided schema upon its initialization.
-        * is immutable, so its schema cannot be changed using inplace modifications.
-
-    The `DataSet[Schema]` annotations are compatible with:
-
-        * `mypy` for type checking during linting-time (i.e. while you write your code).
-        * `typeguard` for type checking during run-time (i.e. while you run your unit tests).
+    | The `DataSet[Schema]` annotations are compatible with:
+    |  -- `mypy` for type checking during linting-time (i.e. while you write your code).
+    |  -- `typeguard` for type checking during run-time (i.e. while you run your unit tests).
     '''
     def _continue_initialization(self) -> None:
         schema_expected = get_type_hints(self._schema_annotations[0])
@@ -144,16 +142,14 @@ class IndexedDataSet(Generic[T, V], DataSetBase):
             .pipe(IndexedDataSet[IndexSchema, DataSchema])
         )
 
-    Where `IndexedDataSet`:
+    | Where `IndexedDataSet`:
+    |  -- is a subclass of `pd.DataFrame` and hence has the same functionality as `DataFrame`.
+    |  -- validates whether the data adheres to the provided schema upon its initialization.
+    |  -- is immutable, so its schema cannot be changed using inplace modifications.
 
-        * is a subclass of `pd.DataFrame` and hence has the same functionality as `DataFrame`.
-        * validates whether the data adheres to the provided schema upon its initialization.
-        * is immutable, so its schema cannot be changed using inplace modifications.
-
-    The `DataSet[Schema]` annotations are compatible with:
-
-        * `mypy` for type checking during linting-time (i.e. while you write your code).
-        * `typeguard` for type checking during run-time (i.e. while you run your unit tests).
+    | The `DataSet[Schema]` annotations are compatible with:
+    |  -- `mypy` for type checking during linting-time (i.e. while you write your code).
+    |  -- `typeguard` for type checking during run-time (i.e. while you run your unit tests).
     '''
     def _continue_initialization(self) -> None:
         schema_index_expected = get_type_hints(self._schema_annotations[0])
