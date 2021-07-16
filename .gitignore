@@ -1,0 +1,11 @@
+.mypy_cache
+.pytest_chache
+**/__pycache__
+.vscode
+*.pyc
+*.ipynb_checkpoints*
+.DS_Store
+.coverage
+.cache
+*.egg*
+docs/build

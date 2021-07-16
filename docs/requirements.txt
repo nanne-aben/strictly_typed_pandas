@@ -1,0 +1,5 @@
+sphinx==4.1.1
+sphinx_rtd_theme
+nbsphinx
+jupyter
+-e .  # installs strictly_typed_pandas

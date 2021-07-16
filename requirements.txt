@@ -1,0 +1,4 @@
+numpy
+pandas>=0.23
+pandas-stubs
+typeguard

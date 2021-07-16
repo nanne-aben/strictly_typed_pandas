@@ -1,0 +1,6 @@
+mypy
+flake8
+coverage
+pytest
+papermill
+jupyter
