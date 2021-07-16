@@ -30,19 +30,23 @@ Using `strictly_typed_pandas`, we can be more explicit about what these data sho
 
 Where `DataSet`:
 
-    * is a subclass of `pd.DataFrame` and hence has the same functionality as `DataFrame`.
-    * validates whether the data adheres to the provided schema upon its initialization.
-    * is immutable, so its schema cannot be changed using inplace modifications.
+* is a subclass of `pd.DataFrame` and hence has the same functionality as `DataFrame`.
+
+* validates whether the data adheres to the provided schema upon its initialization.
+
+* is immutable, so its schema cannot be changed using inplace modifications.
 
 The `DataSet[Schema]` annotations are compatible with:
 
-    * `mypy` for type checking during linting-time (i.e. while you write your code).
-    * `typeguard` for type checking during run-time (i.e. while you run your unit tests).
+* `mypy` for type checking during linting-time (i.e. while you write your code).
+
+* `typeguard` for type checking during run-time (i.e. while you run your unit tests).
 
 To get the most out of `strictly_typed_pandas`, be sure to:
 
-    * set up `mypy` in your IDE.
-    * run your unit tests with `pytest --typeguard-packages=foo.bar` (where `foo.bar` is your package name).
+* set up `mypy` in your IDE.
+
+* run your unit tests with `pytest --typeguard-packages=foo.bar` (where `foo.bar` is your package name).
 
 Installation
 ============
