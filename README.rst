@@ -43,11 +43,10 @@ To get the most out of `strictly_typed_pandas`, be sure to:
 
 Installation
 ============
-For now, please install `strictly_typed_pandas` directly from Github.
 
 .. code-block:: bash
 
-    pip install git+https://github.com/nanne-aben/strictly_typed_pandas
+    pip install strictly-typed-pandas
 
 
 Documentation
