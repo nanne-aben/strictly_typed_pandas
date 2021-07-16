@@ -19,6 +19,10 @@ dataframe_member_names = dict(inspect.getmembers(pd.DataFrame)).keys()
 
 class DataSetBase(pd.DataFrame, ABC):
     def __init__(self, *args, **kwargs) -> None:
+        '''
+        This class is a subclass of `pd.DataFrame`, hence it is initialized with the same parameters as a `DataFrame`.
+        See the Pandas `DataFrame` documentation for more information.
+        '''
         super().__init__(*args, **kwargs)
 
         if self.columns.duplicated().any():
@@ -97,25 +101,15 @@ class DataSet(Generic[T], DataSetBase):
 
     Where `DataSet`:
 
-    * is a subclass of `pd.DataFrame` and hence has the same functionality as `DataFrame`.
-
-    * validates whether the data adheres to the provided schema upon its initialization.
-
-    * is immutable, so its schema cannot be changed using inplace modifications.
+        * is a subclass of `pd.DataFrame` and hence has the same functionality as `DataFrame`.
+        * validates whether the data adheres to the provided schema upon its initialization.
+        * is immutable, so its schema cannot be changed using inplace modifications.
 
     The `DataSet[Schema]` annotations are compatible with:
 
-    * `mypy` for type checking during linting-time (i.e. while you write your code).
-
-    * `typeguard` for type checking during run-time (i.e. while you run your unit tests).
+        * `mypy` for type checking during linting-time (i.e. while you write your code).
+        * `typeguard` for type checking during run-time (i.e. while you run your unit tests).
     '''
-    def __init__(self, *args, **kwargs) -> None:
-        '''
-        `DataSet` is a subclass of `pd.DataFrame`, hence it is initialized with the same parameters as a `DataFrame`.
-        See the Pandas `DataFrame` documentation for more information.
-        '''
-        super().__init__(*args, **kwargs)
-
     def _continue_initialization(self) -> None:
         schema_expected = get_type_hints(self._schema_annotations[0])
 
@@ -152,25 +146,15 @@ class IndexedDataSet(Generic[T, V], DataSetBase):
 
     Where `IndexedDataSet`:
 
-    * is a subclass of `pd.DataFrame` and hence has the same functionality as `DataFrame`.
-
-    * validates whether the data adheres to the provided schema upon its initialization.
-
-    * is immutable, so its schema cannot be changed using inplace modifications.
+        * is a subclass of `pd.DataFrame` and hence has the same functionality as `DataFrame`.
+        * validates whether the data adheres to the provided schema upon its initialization.
+        * is immutable, so its schema cannot be changed using inplace modifications.
 
     The `DataSet[Schema]` annotations are compatible with:
 
-    * `mypy` for type checking during linting-time (i.e. while you write your code).
-
-    * `typeguard` for type checking during run-time (i.e. while you run your unit tests).
+        * `mypy` for type checking during linting-time (i.e. while you write your code).
+        * `typeguard` for type checking during run-time (i.e. while you run your unit tests).
     '''
-    def __init__(self, *args, **kwargs) -> None:
-        '''
-        `IndexedDataSet` is a subclass of `pd.DataFrame`, hence it is initialized with the same parameters as a
-        `DataFrame`. See the pandas `DataFrame` documentation for more information.
-        '''
-        super().__init__(*args, **kwargs)
-
     def _continue_initialization(self) -> None:
         schema_index_expected = get_type_hints(self._schema_annotations[0])
         schema_data_expected = get_type_hints(self._schema_annotations[1])

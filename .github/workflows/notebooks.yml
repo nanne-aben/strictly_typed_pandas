@@ -21,8 +21,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install -r requirements-dev.txt
-      - name: Run notebooks 
+      - name: Run notebooks
         run: |
-           papermill notebooks/getting_started.ipynb output.json -k python3
-           papermill notebooks/advanced.ipynb output.json -k python3
-           papermill notebooks/deepdive_into_dtypes.ipynb output.json -k python3
+           papermill docs/source/getting_started.ipynb output.json -k python3
+           papermill docs/source/advanced.ipynb output.json -k python3
+           papermill docs/source/deepdive_into_dtypes.ipynb output.json -k python3

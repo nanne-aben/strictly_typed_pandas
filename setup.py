@@ -7,7 +7,7 @@ def get_requirements():
 
 
 def get_long_description():
-    with open("README.md", encoding="utf-8") as f:
+    with open("README.rst", encoding="utf-8") as f:
         return f.read()
 
 
@@ -21,7 +21,7 @@ setup(
     description="Static type checking of pandas DataFrames",
     keywords="typing type checking pandas mypy linting",
     long_description=get_long_description(),
-    long_description_content_type="text/markdown",
+    long_description_content_type="text/x-rst",
     packages=find_packages(include=["strictly_typed_pandas", "strictly_typed_pandas.*"]),
     install_requires=get_requirements(),
     python_requires=">3.6.0",
