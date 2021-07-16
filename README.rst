@@ -29,7 +29,6 @@ Using `strictly_typed_pandas`, we can be more explicit about what these data sho
         return df
 
 Where `DataSet`:
-
     * is a subclass of `pd.DataFrame` and hence has the same functionality as `DataFrame`.
     * validates whether the data adheres to the provided schema upon its initialization.
     * is immutable, so its schema cannot be changed using inplace modifications.
