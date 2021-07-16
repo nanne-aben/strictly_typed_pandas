@@ -4,6 +4,3 @@ coverage
 pytest
 papermill
 jupyter
-sphinx==4.1.1
-sphinx_rtd_theme
-nbsphinx

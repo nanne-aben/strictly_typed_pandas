@@ -2,7 +2,7 @@
 Strictly Typed Pandas: static type checking of pandas DataFrames
 ================================================================
 
-I love Pandas!! But in production code I’m always a bit wary when I see:
+I love Pandas! But in production code I’m always a bit wary when I see:
 
 .. code-block:: python
 
