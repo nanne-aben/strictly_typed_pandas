@@ -13,7 +13,6 @@ def get_long_description():
 
 setup(
     name="strictly_typed_pandas",
-    version="0.1.1",
     url="https://github.com/nanne-aben/strictly_typed_pandas",
     license="MIT",
     author="Nanne Aben",
@@ -26,4 +25,6 @@ setup(
     install_requires=get_requirements(),
     python_requires=">3.6.0",
     classifiers=["Typing :: Typed"],
+    version_config=True,
+    setup_requires=['setuptools-git-versioning'],
 )
