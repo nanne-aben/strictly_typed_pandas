@@ -2,6 +2,8 @@
 Strictly Typed Pandas: static type checking of pandas DataFrames
 ================================================================
 
+https://img.shields.io/github/checks-status/nanne-aben/strictly_typed_pandas/v0.1.1
+
 I love Pandas! But in production code I’m always a bit wary when I see:
 
 .. code-block:: python
