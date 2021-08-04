@@ -118,6 +118,15 @@ class DataSet(Generic[T], DataSetBase):
             schema_observed = dict(zip(self.columns, self.dtypes))
             validate_schema(schema_expected, schema_observed)
 
+    def abs(self) -> "DataSet[T]":
+        return super().abs().pipe(DataSet[T])
+
+    def applymap(self, *args, **kwargs) -> "DataSet[T]":
+        return super().applymap(*args, **kwargs).pipe(DataSet[T])
+
+    def asfreq(self, *args, **kwargs) -> "DataSet[T]":
+        return super().asfreq(self, *args, **kwargs).pipe(DataSet[T])
+
 
 class IndexedDataSet(Generic[T, V], DataSetBase):
     '''
