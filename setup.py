@@ -27,4 +27,5 @@ setup(
     classifiers=["Typing :: Typed"],
     version_config=True,
     setup_requires=['setuptools-git-versioning'],
+    package_data={"strictly_typed_pandas": ["py.typed"]},
 )
