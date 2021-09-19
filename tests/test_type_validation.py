@@ -1,5 +1,5 @@
 import pandas as pd
-import numpy as np
+import numpy as np  # type: ignore
 import pytest
 
 from typing import Any, Callable

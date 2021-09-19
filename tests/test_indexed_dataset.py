@@ -1,6 +1,6 @@
 import pytest
 import pandas as pd
-import numpy as np
+import numpy as np  # type: ignore
 
 from strictly_typed_pandas import IndexedDataSet
 from strictly_typed_pandas.pandas_types import StringDtype

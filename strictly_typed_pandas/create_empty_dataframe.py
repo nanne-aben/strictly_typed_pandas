@@ -1,6 +1,6 @@
 from strictly_typed_pandas.pandas_types import StringDtype
 import pandas as pd
-import numpy as np
+import numpy as np  # type: ignore
 
 from typing import Any, Dict, Callable
 from pandas.api.extensions import ExtensionDtype
