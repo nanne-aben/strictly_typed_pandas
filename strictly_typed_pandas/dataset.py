@@ -7,6 +7,7 @@ from typing import Any, Generic, TypeVar, get_type_hints
 from strictly_typed_pandas.immutable import (
     _ImmutableiLocIndexer, _ImmutableLocIndexer, immutable_error_msg, inplace_argument_interceptor
 )
+from strictly_typed_pandas.join import Join
 from strictly_typed_pandas.validate_schema import (
     check_for_duplicate_columns, check_index_for_unsupported_datatypes, validate_schema
 )
@@ -84,8 +85,9 @@ class DataSetBase(pd.DataFrame, ABC):
         return self.to_dataframe()
 
 
-T = TypeVar("T")
+T = TypeVar("T", covariant=True)
 V = TypeVar("V")
+W = TypeVar("W")
 
 
 class DataSet(Generic[T], DataSetBase):
@@ -117,6 +119,12 @@ class DataSet(Generic[T], DataSetBase):
         else:
             schema_observed = dict(zip(self.columns, self.dtypes))
             validate_schema(schema_expected, schema_observed)
+
+    def merge(self, right: 'DataSet[W]', *args, **kwargs) -> 'DataSet[Join[T, W]]':  # type: ignore
+        return super().merge(right, *args, **kwargs).pipe(DataSet)
+
+    def join(self, right: 'DataSet[W]', *args, **kwargs) -> 'DataSet[Join[T, W]]':  # type: ignore
+        return super().join(right, *args, **kwargs).pipe(DataSet)
 
 
 class IndexedDataSet(Generic[T, V], DataSetBase):
