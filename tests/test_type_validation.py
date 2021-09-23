@@ -5,7 +5,7 @@ import pytest
 from typing import Any, Callable
 
 from strictly_typed_pandas import DataSet, IndexedDataSet
-from strictly_typed_pandas.pandas_types import (
+from strictly_typed_pandas.utils.pandas_types import (
     BackwardCompatibility,
     BooleanDtype,
     CategoricalDtype,
@@ -20,18 +20,18 @@ from strictly_typed_pandas.pandas_types import (
 
 def is_backward_compatibility_type(dtype) -> bool:
     if isinstance(dtype, BackwardCompatibility):
-        return True
+        return True  # pragma: no cover
 
     if dtype not in [Any, np.integer]:
         if isinstance(dtype, Callable) and isinstance(dtype(), BackwardCompatibility):  # type: ignore
-            return True
+            return True  # pragma: no cover
 
     return False
 
 
 def are_they_equal(observed, expected):
     if is_backward_compatibility_type(observed) or is_backward_compatibility_type(expected):
-        return np.nan
+        return np.nan  # pragma: no cover
 
     class SchemaExpected:
         a: expected
@@ -122,7 +122,7 @@ def test_supported_index_data_type():
     ]
     for dtype in dtypes:
         if is_backward_compatibility_type(dtype):
-            continue
+            continue  # pragma: no cover
 
         class IndexSchema:
             a: dtype

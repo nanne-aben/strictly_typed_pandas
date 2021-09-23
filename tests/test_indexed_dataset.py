@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np  # type: ignore
 
 from strictly_typed_pandas import IndexedDataSet
-from strictly_typed_pandas.pandas_types import StringDtype
+from strictly_typed_pandas.utils.pandas_types import StringDtype
 
 
 class IndexSchema:
@@ -66,7 +66,10 @@ def test_typeguard_indexed_dataset() -> None:
     foo(IndexedDataSet[IndexSchema, DataSchema]())
 
     with pytest.raises(TypeError):
-        foo(IndexedDataSet[AlternativeIndexSchema, AlternativeDataSchema]())  # type: ignore
+        foo(IndexedDataSet[IndexSchema, AlternativeDataSchema]())  # type: ignore
+
+    with pytest.raises(TypeError):
+        foo(IndexedDataSet[AlternativeIndexSchema, DataSchema]())  # type: ignore
 
     with pytest.raises(TypeError):
         foo(pd.DataFrame())  # type: ignore
