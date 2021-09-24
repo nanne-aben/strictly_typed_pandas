@@ -50,7 +50,7 @@ class DataSet(Generic[_Schema], DataSetBase):
 
     def _create_joined_dataset(
         self, df: pd.DataFrame, right: 'DataSet[_OtherSchema]'
-        ) -> 'DataSet[Join[_Schema, _OtherSchema]]':
+    ) -> 'DataSet[Join[_Schema, _OtherSchema]]':
         schemas = {
             "SchemaA": self._schema,
             "SchemaB": right._schema,
@@ -70,11 +70,11 @@ class DataSet(Generic[_Schema], DataSetBase):
         return DataSet[JoinedSchema](df)  # type: ignore
 
     @overload
-    def merge(self, right: FrameOrSeries, *args, **kwargs) -> pd.DataFrame: ...
+    def merge(  # type: ignore
+        self, right: 'DataSet[_OtherSchema]', *args, **kwargs) -> 'DataSet[Join[_Schema, _OtherSchema]]': ...
 
     @overload
-    def merge( # type: ignore
-        self, right: 'DataSet[_OtherSchema]', *args, **kwargs) -> 'DataSet[Join[_Schema, _OtherSchema]]': ...
+    def merge(self, right: FrameOrSeries, *args, **kwargs) -> pd.DataFrame: ...
 
     def merge(self, right, *args, **kwargs):
         df = super().merge(right, *args, **kwargs)
@@ -83,11 +83,11 @@ class DataSet(Generic[_Schema], DataSetBase):
         return df
 
     @overload
-    def join(self, other: Union[pd.DataFrame, pd.Series, List[pd.DataFrame]], *args, **kwargs) -> pd.DataFrame: ...
+    def join(  # type: ignore
+        self, other: 'DataSet[_OtherSchema]', *args, **kwargs) -> 'DataSet[Join[_Schema, _OtherSchema]]': ...
 
     @overload
-    def join( # type: ignore
-        self, other: 'DataSet[_OtherSchema]', *args, **kwargs) -> 'DataSet[Join[_Schema, _OtherSchema]]': ...
+    def join(self, other: Union[pd.DataFrame, pd.Series, List[pd.DataFrame]], *args, **kwargs) -> pd.DataFrame: ...
 
     def join(self, other, *args, **kwargs):
         df = super().join(other, *args, **kwargs)

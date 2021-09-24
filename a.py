@@ -1,13 +1,14 @@
-from typing import overload
+from strictly_typed_pandas import DataSet
 
-@overload
-def foo(a: int) -> int: ...
+class SchemaA:
+    a: int
 
-@overload
-def foo(a: str) -> str: ...
+class SchemaB:
+    b: int
 
-def foo(a):
-    return a
+class SchemaAB(SchemaA, SchemaB):
+    pass
 
-a: int = foo(1)
-b: str = foo(1)
+df_a = DataSet[SchemaA]()
+df_b = DataSet[SchemaB]()
+df_ab: DataSet[SchemaAB] = df_a.merge(df_b)

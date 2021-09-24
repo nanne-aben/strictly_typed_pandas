@@ -16,6 +16,7 @@ _IndexSchema = TypeVar("_IndexSchema")
 _Schema = TypeVar("_Schema")
 _OtherSchema = TypeVar("_OtherSchema")
 
+
 class IndexedDataSet(Generic[_IndexSchema, _Schema], DataSetBase):
     '''
     `IndexedDataSet` allows for static type checking of indexed pandas DataFrames, for example:
@@ -82,7 +83,7 @@ class IndexedDataSet(Generic[_IndexSchema, _Schema], DataSetBase):
 
     def _create_joined_indexed_dataset(
         self, df: pd.DataFrame, right: 'IndexedDataSet[_IndexSchema, _OtherSchema]'
-        ) -> 'IndexedDataSet[_IndexSchema, Join[_Schema, _OtherSchema]]':
+    ) -> 'IndexedDataSet[_IndexSchema, Join[_Schema, _OtherSchema]]':
         schemas = {
             "IndexSchemaA": self._index_schema,
             "SchemaA": self._schema,
@@ -92,11 +93,11 @@ class IndexedDataSet(Generic[_IndexSchema, _Schema], DataSetBase):
         for name, schema in schemas.items():
             if schema is None:
                 raise TypeError(
-                    f"During an operation of the form: \n" +
+                    "During an operation of the form: \n" +
                     "df_a: IndexedDataSet[IndexSchemaA, SchemaA]\n" +
                     "df_b: IndexedDataSet[IndexSchemaB, SchemaB]\n" +
                     "join(df_a, df_b)\n" +
-                    "The schema {name} could not be found. Please make sure that you " +
+                    f"The schema {name} could not be found. Please make sure that you " +
                     "initialize using IndexedDataSet[IndexSchemaA, SchemaA](), not IndexedDataSet()."
                 )
 
@@ -105,12 +106,12 @@ class IndexedDataSet(Generic[_IndexSchema, _Schema], DataSetBase):
         return IndexedDataSet[IndexSchema, JoinedSchema](df)  # type: ignore
 
     @overload
-    def merge(self, right: FrameOrSeries, *args, **kwargs) -> pd.DataFrame: ...
+    def merge(  # type: ignore
+        self, right: 'IndexedDataSet[_IndexSchema, _OtherSchema]', *args, **kwargs
+    ) -> 'IndexedDataSet[_IndexSchema, Join[_Schema, _OtherSchema]]': ...
 
     @overload
-    def merge( # type: ignore
-        self, right: 'IndexedDataSet[_IndexSchema, _OtherSchema]', *args, **kwargs
-        ) -> 'IndexedDataSet[_IndexSchema, Join[_Schema, _OtherSchema]]': ...
+    def merge(self, right: FrameOrSeries, *args, **kwargs) -> pd.DataFrame: ...
 
     def merge(self, right, *args, **kwargs):
         df = super().merge(right, *args, **kwargs)
@@ -119,12 +120,12 @@ class IndexedDataSet(Generic[_IndexSchema, _Schema], DataSetBase):
         return df
 
     @overload
-    def join(self, other: Union[pd.DataFrame, pd.Series, List[pd.DataFrame]], *args, **kwargs) -> pd.DataFrame: ...
+    def join(  # type: ignore
+        self, other: 'IndexedDataSet[_IndexSchema, _OtherSchema]', *args, **kwargs
+    ) -> 'IndexedDataSet[_IndexSchema, Join[_Schema, _OtherSchema]]': ...
 
     @overload
-    def join( # type: ignore
-        self, other: 'IndexedDataSet[_IndexSchema, _OtherSchema]', *args, **kwargs
-        ) -> 'IndexedDataSet[_IndexSchema, Join[_Schema, _OtherSchema]]': ...
+    def join(self, other: Union[pd.DataFrame, pd.Series, List[pd.DataFrame]], *args, **kwargs) -> pd.DataFrame: ...
 
     def join(self, other, *args, **kwargs):
         df = super().join(other, *args, **kwargs)

@@ -26,7 +26,7 @@ def _raise_schema_observed_is_none(argname, schema_index_expected, schema_data_e
 
 def _raise_schemas_are_not_equal(
     argname, schema_index_expected, schema_data_expected, schema_index_observed, schema_data_observed
-    ):
+):
     schema_index_expected = typeguard.qualified_name(schema_index_expected)
     schema_data_expected = typeguard.qualified_name(schema_data_expected)
     schema_index_observed = typeguard.qualified_name(schema_index_observed)

@@ -15,7 +15,7 @@ def join_schemas(ctx):
     dataset = ctx.default_return_type
     join = dataset.args[0]
     schemas = join.args
-    schemas_extended = _get_schemas_and_all_their_superclasses(schemas)
+    schemas_extended = _get_schemas_and_all_their_superclasses(ctx, schemas)
 
     # update join to be a subclass of these schemas
     ctx.default_return_type.args[0].type.mro = schemas_extended

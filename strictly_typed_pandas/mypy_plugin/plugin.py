@@ -7,23 +7,24 @@ from strictly_typed_pandas.mypy_plugin.convert_schemas_into_protocols import (
 from strictly_typed_pandas.mypy_plugin.join_schemas import join_schemas
 
 
-DATASET_CLASS = "strictly_typed_pandas.dataset.dataset.DataSet"
-INDEXED_DATASET_CLASS = "strictly_typed_pandas.dataset.indexeddataset.IndexedDataSet"
-JOIN_METHODS = (
-    [f"{DATASET_CLASS}.{method}" for method in ["join", "merge"]] +
-    [f"{INDEXED_DATASET_CLASS}.{method}" for method in ["join"]]
+_DATASET_CLASS = "strictly_typed_pandas.core.dataset.dataset.DataSet"
+_INDEXED_DATASET_CLASS = "strictly_typed_pandas.core.dataset.indexeddataset.IndexedDataSet"
+_JOIN_FUNCTIONS = ["join", "merge"]
+_JOIN_METHODS = (
+    [f"{_DATASET_CLASS}.{method}" for method in _JOIN_FUNCTIONS] +
+    [f"{_INDEXED_DATASET_CLASS}.{method}" for method in _JOIN_FUNCTIONS]
 )
 
 
 class CustomPlugin(Plugin):
     def get_type_analyze_hook(self, fullname):
-        if fullname == DATASET_CLASS:
+        if fullname == _DATASET_CLASS:
             return convert_dataset_schemas_into_protocols
-        if fullname == INDEXED_DATASET_CLASS:
+        if fullname == _INDEXED_DATASET_CLASS:
             return convert_indexed_dataset_schemas_into_protocols
 
     def get_method_hook(self, fullname: str):
-        if fullname in JOIN_METHODS:
+        if fullname in _JOIN_METHODS:
             return join_schemas
 
 

@@ -70,6 +70,7 @@ class DataSetBase(pd.DataFrame, ABC):
     def _create_joined_schema(self, right: 'DataSetBase'):
         SchemaA = self._schema
         SchemaB = right._schema
+
         class JoinedSchema(SchemaA, SchemaB):  # type: ignore
             pass
         return JoinedSchema
