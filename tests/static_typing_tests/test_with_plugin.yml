@@ -38,10 +38,10 @@
         b: int
 
       class SchemaE:
-        a: pd.PeriodDtype(freq="D")  # type: ignore  # noqa: F821
+        a: pd.PeriodDtype
 
       class SchemaF:
-        a: pd.PeriodDtype(freq="D")  # type: ignore  # noqa: F821
+        a: pd.PeriodDtype
 
       df_a: DataSet[SchemaB] = DataSet[SchemaA]()
       df_b: DataSet[SchemaC] = DataSet[SchemaA]()  # E: Incompatible types in assignment (expression has type "DataSet[SchemaA]", variable has type "DataSet[SchemaC]")

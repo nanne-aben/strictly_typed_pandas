@@ -12,7 +12,7 @@ def schemas_are_equal(schema_expected, schema_observed) -> bool:
 
     # If schema_expected is a Join[...], it will be a _GenericAlias, so we cannot use isinstance(schema_expacted, Join)
     join_class_name = typeguard.qualified_name(Join)
-    if re.match(f"^{join_class_name}\[.*\]$", str(schema_expected)):
+    if re.match(f"^{join_class_name}\\[.*\\]$", str(schema_expected)):
         # Since we always use Joins in combination with TypeVars, we should just return True here
         return True
 

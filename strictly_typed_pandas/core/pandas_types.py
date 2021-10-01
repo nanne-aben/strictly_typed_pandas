@@ -1,5 +1,6 @@
-from typing import Union
 import pandas as pd
+
+from typing import Union
 
 
 # for backward compatability with pandas 0.23 - 0.25
