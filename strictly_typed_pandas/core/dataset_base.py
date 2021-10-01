@@ -2,7 +2,7 @@ import pandas as pd
 import inspect
 
 from abc import ABC, abstractmethod
-from typing import Any, overload
+from typing import Any
 
 from strictly_typed_pandas.core.immutable import (
     _ImmutableiLocIndexer, _ImmutableLocIndexer, immutable_error_msg, inplace_argument_interceptor
