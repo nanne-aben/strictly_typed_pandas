@@ -2,14 +2,14 @@ import pandas as pd
 
 from typing import Generic, List, TypeVar, Union, get_type_hints, overload
 
-from strictly_typed_pandas.core.dataset.base import DataSetBase
+from strictly_typed_pandas.core.dataset_base import DataSetBase
 from strictly_typed_pandas.core.join import Join
 from strictly_typed_pandas.core.exact_match_for_protocols import ExactMatchForProtocols
 from strictly_typed_pandas.core.validate_schema import (
     check_for_duplicate_columns, check_index_for_unsupported_datatypes, validate_schema
 )
 from strictly_typed_pandas.core.create_empty_dataframe import create_empty_indexed_dataframe
-from strictly_typed_pandas.utils.pandas_types import FrameOrSeries
+from strictly_typed_pandas.core.pandas_types import FrameOrSeries
 
 
 _IndexSchema = TypeVar("_IndexSchema")

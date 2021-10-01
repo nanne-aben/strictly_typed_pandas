@@ -1,11 +1,11 @@
-from typing import TypeVar, Protocol
+from typing import Generic, TypeVar
 
 
 _SchemaA = TypeVar("_SchemaA", covariant=True)
 _SchemaB = TypeVar("_SchemaB", covariant=True)
 
 
-class Join(Protocol[_SchemaA, _SchemaB]):
+class Join(Generic[_SchemaA, _SchemaB]):
     '''
     Note that this class should only really be used internally in Strictly Typed Pandas.
 
@@ -23,8 +23,5 @@ class Join(Protocol[_SchemaA, _SchemaB]):
     - when the strictly_typed_pandas mypy plugin is enabled
 
     All relevant functionality is implemented in mypy_plugin.py.
-
-    When the strictly_typed_pandas mypy plugin is not enabled, this class will function as an Any
-    (since it's essentially an empty Protocol), thereby providing backward compatibility.
     '''
     pass

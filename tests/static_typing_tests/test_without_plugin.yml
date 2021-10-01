@@ -1,0 +1,40 @@
+- case: pipe
+  main: |
+    import pandas as pd
+    from strictly_typed_pandas import DataSet
+
+    class Schema:
+      a: int
+
+    def foo(df: pd.DataFrame) -> DataSet[Schema]:
+      return DataSet[Schema](df)
+
+    class TestPipe:
+      df = pd.DataFrame({'a': [1, 2, 3]})
+
+      df_a = df.pipe(DataSet[Schema])
+      reveal_type(df_a)  # N: Revealed type is "strictly_typed_pandas.dataset.DataSet*[main.Schema*]"
+
+      df_b = df.pipe((DataSet[Schema], "data"))
+      reveal_type(df_b)  # N: Revealed type is "strictly_typed_pandas.dataset.DataSet*[main.Schema*]"
+
+      df_c = df.pipe(1)
+      reveal_type(df_c)  # N: Revealed type is "builtins.int*"
+
+      df_d = df.pipe(foo)
+      reveal_type(df_d)  # N: Revealed type is "strictly_typed_pandas.dataset.DataSet*[main.Schema]"
+
+#     class SchemaA:
+#       a: int
+
+#     class SchemaB:
+#       b: int
+
+#     class SchemaAB(SchemaA, SchemaB):
+#       pass
+
+#     df_a = DataSet[SchemaA]()
+#     df_b = DataSet[SchemaB]()
+#     df_ab: DataSet[SchemaAB] = df_a.join(df_b)
+
+#     reveal_type(df_ab)  # N: Revealed type is "strictly_typed_pandas.dataset.DataSet[main.SchemaAB]"

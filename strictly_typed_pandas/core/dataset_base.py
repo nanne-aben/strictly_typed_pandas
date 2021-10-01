@@ -2,7 +2,8 @@ import pandas as pd
 import inspect
 
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Optional, overload
+from pandas._typing import Axes, Dtype
 
 from strictly_typed_pandas.core.immutable import (
     _ImmutableiLocIndexer, _ImmutableLocIndexer, immutable_error_msg, inplace_argument_interceptor
@@ -14,7 +15,20 @@ _dataframe_member_names = dict(inspect.getmembers(pd.DataFrame)).keys()
 
 
 class DataSetBase(pd.DataFrame, ABC):
-    def __init__(self, *args, **kwargs) -> None:
+    # We need these overloads to allow for type inference in pipe(), e.g.:
+    # df = (
+    #   pd.DataFrame({'a': [1, 2, 3]})
+    #   .pipe(DataSet[Schema])
+    # )
+    # reveal_type(df)  # N: Revealed type is "strictly_typed_pandas.core.dataset.dataset.DataSet*[main.Schema*]"
+    # Would like to get rid of this when we can...
+    @overload
+    def __init__(self): ...
+
+    @overload
+    def __init__(self, data: pd.DataFrame): ...
+
+    def __init__(self, *args, **kwargs):
         '''
         This class is a subclass of `pd.DataFrame`, hence it is initialized with the same parameters as a `DataFrame`.
         See the Pandas `DataFrame` documentation for more information.

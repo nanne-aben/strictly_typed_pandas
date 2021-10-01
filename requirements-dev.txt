@@ -4,3 +4,4 @@ coverage
 pytest
 papermill
 jupyter
+pytest-mypy-plugins

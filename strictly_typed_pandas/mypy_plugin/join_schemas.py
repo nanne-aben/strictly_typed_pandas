@@ -5,7 +5,7 @@ def _get_schemas_and_all_their_superclasses(ctx, schemas):
         for c in class_and_superclasses:
             res.append(c)
 
-    # can we replace this by 'object'?
+    # the last entry in the MRO list is always 'object' (represented by a TypeInfo class here)
     res.append(ctx.default_return_type.args[0].type.mro[-1])
 
     return res

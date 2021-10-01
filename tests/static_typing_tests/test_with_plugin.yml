@@ -1,0 +1,51 @@
+- case: with_plugin
+  mypy_config: |
+    plugins = strictly_typed_pandas.mypy_plugin
+  main: |
+    import pandas as pd
+    from strictly_typed_pandas import DataSet
+
+    class TestJoins:
+      class SchemaA:
+        a: int
+
+      class SchemaB:
+        b: int
+
+      class SchemaAB(SchemaA, SchemaB):
+        pass
+
+      df_a = DataSet[SchemaA]()
+      df_b = DataSet[SchemaB]()
+
+      df_ab_1: DataSet[SchemaAB] = df_a.join(df_b)
+      reveal_type(df_ab_1)  # N: Revealed type is "strictly_typed_pandas.dataset.DataSet[main.TestJoins.SchemaAB]"
+
+      df_ab_2: DataSet[SchemaA] = df_a.join(df_b)  # E: Incompatible types in assignment (expression has type "DataSet[Join[SchemaA, SchemaB]]", variable has type "DataSet[SchemaA]")
+
+    class TestSchemasConvertedToProtocols:
+      class SchemaA:
+        a: int
+
+      class SchemaB:
+        a: int
+
+      class SchemaC:
+        a: str
+
+      class SchemaD:
+        a: int
+        b: int
+
+      class SchemaE:
+        a: pd.PeriodDtype(freq="D")  # type: ignore  # noqa: F821
+
+      class SchemaF:
+        a: pd.PeriodDtype(freq="D")  # type: ignore  # noqa: F821
+
+      df_a: DataSet[SchemaB] = DataSet[SchemaA]()
+      df_b: DataSet[SchemaC] = DataSet[SchemaA]()  # E: Incompatible types in assignment (expression has type "DataSet[SchemaA]", variable has type "DataSet[SchemaC]")
+      df_c: DataSet[SchemaD] = DataSet[SchemaA]()  # E: Incompatible types in assignment (expression has type "DataSet[SchemaA]", variable has type "DataSet[SchemaD]")
+      df_d: DataSet[SchemaA] = DataSet[SchemaD]()  # E: Incompatible types in assignment (expression has type "DataSet[SchemaD]", variable has type "DataSet[SchemaA]")
+      df_e: DataSet[SchemaE] = DataSet[SchemaF]()
+      df_f: DataSet[SchemaA] = DataSet[SchemaE]()

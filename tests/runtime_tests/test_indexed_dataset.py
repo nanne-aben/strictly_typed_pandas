@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np  # type: ignore
 
 from strictly_typed_pandas import IndexedDataSet
-from strictly_typed_pandas.utils.pandas_types import StringDtype
+from strictly_typed_pandas.core.pandas_types import StringDtype
 
 
 class IndexSchema:

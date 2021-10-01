@@ -5,7 +5,7 @@ import pytest
 from typing import Any, Callable
 
 from strictly_typed_pandas import DataSet, IndexedDataSet
-from strictly_typed_pandas.utils.pandas_types import (
+from strictly_typed_pandas.core.pandas_types import (
     BackwardCompatibility,
     BooleanDtype,
     CategoricalDtype,
