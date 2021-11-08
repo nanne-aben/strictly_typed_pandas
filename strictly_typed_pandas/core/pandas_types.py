@@ -46,13 +46,6 @@ else:  # pragma: no cover
         pass
 
 
-if hasattr(pd, "IntervalDtype"):
-    IntervalDtype = pd.IntervalDtype
-else:  # pragma: no cover
-    class IntervalDtype(BackwardCompatibility):  # type: ignore
-        pass
-
-
 if hasattr(pd, "Int64Dtype"):
     Int64Dtype = pd.Int64Dtype
 else:  # pragma: no cover
@@ -65,9 +58,3 @@ if hasattr(pd, "BooleanDtype"):
 else:  # pragma: no cover
     class BooleanDtype(BackwardCompatibility):  # type: ignore
         pass
-
-
-if hasattr(pd, "_typing"):
-    from pandas._typing import FrameOrSeries
-else:  # pragma: no cover
-    FrameOrSeries = Union[pd.DatetimeIndex, pd.Series]  # type: ignore

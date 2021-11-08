@@ -7,7 +7,7 @@ from strictly_typed_pandas.core.join import Join
 from strictly_typed_pandas.core.exact_match_for_protocols import ExactMatchForProtocols
 from strictly_typed_pandas.core.validate_schema import validate_schema
 from strictly_typed_pandas.core.create_empty_dataframe import create_empty_dataframe
-from strictly_typed_pandas.core.pandas_types import FrameOrSeries
+from strictly_typed_pandas.core.typevars import FrameOrSeries
 
 
 _Schema = TypeVar("_Schema")

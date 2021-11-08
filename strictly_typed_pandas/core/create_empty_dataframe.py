@@ -1,9 +1,11 @@
+import inspect
 import pandas as pd
 import numpy as np  # type: ignore
 
-from typing import Any, Dict, Callable
+from typing import Any, Callable, Dict
 from pandas.api.extensions import ExtensionDtype
 
+from strictly_typed_pandas.core.pandas_types_with_argument import PandasTypeWithArgument
 from strictly_typed_pandas.core.pandas_types import StringDtype
 
 
@@ -13,11 +15,14 @@ def create_empty_dataframe(schema: Dict[str, Any]) -> pd.DataFrame:
         if dtype == Any:
             dtype = object
 
-        if isinstance(dtype, Callable) and isinstance(dtype(), ExtensionDtype):  # type: ignore
-            dtype = dtype.name
+        if inspect.isclass(dtype) and issubclass(dtype, ExtensionDtype):
+            dtype = dtype().name
 
         if isinstance(dtype, ExtensionDtype):
             dtype = dtype.name
+
+        if isinstance(dtype, Callable) and isinstance(dtype(), PandasTypeWithArgument):  # type: ignore
+            dtype = dtype().create_pandas_type()
 
         if dtype == np.datetime64:
             dtype = "datetime64[ns]"

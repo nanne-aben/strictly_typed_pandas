@@ -5,3 +5,4 @@ pytest
 papermill
 jupyter
 pytest-mypy-plugins
+pyarrow>=1.0.0

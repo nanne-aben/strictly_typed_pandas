@@ -1,10 +1,12 @@
+import typing
 import numpy as np  # type: ignore
 import warnings
 
-from typing import Dict, Any, Set
+from typing import Callable, Dict, Any, Set
 from pandas.core.dtypes.common import is_dtype_equal
 from pandas.api.extensions import ExtensionDtype
 
+from strictly_typed_pandas.core.pandas_types_with_argument import PandasTypeWithArgument
 from strictly_typed_pandas.core.pandas_types import BooleanDtype, Int64Dtype, SparseDtype, StringDtype
 
 
@@ -69,8 +71,14 @@ def _check_dtypes(schema_expected: Dict[str, Any], schema_observed: Dict[str, An
         if isinstance(dtype_expected, ExtensionDtype) and is_dtype_equal(dtype_expected, dtype_observed):
             continue
 
-        if dtype_observed != object and isinstance(dtype_observed, dtype_expected):
-            continue
+        if isinstance(dtype_expected, Callable):  # type: ignore
+            if isinstance(dtype_expected(), PandasTypeWithArgument):
+                if is_dtype_equal(dtype_expected().create_pandas_type(), dtype_observed):
+                    continue
+
+        if not isinstance(dtype_expected, typing._GenericAlias) and dtype_observed != object:  # type: ignore
+            if isinstance(dtype_observed, dtype_expected):
+                continue
 
         msg = "Column {name} is of type {dtype_observed}, but the schema suggests {dtype_expected}"
 

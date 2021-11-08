@@ -3,7 +3,8 @@
     plugins = strictly_typed_pandas.mypy_plugin
   main: |
     import pandas as pd
-    from strictly_typed_pandas import DataSet
+    from strictly_typed_pandas import DataSet, PeriodDtype, StringDtype
+    from typing import Literal, Tuple
 
     class TestJoins:
       class SchemaA:
@@ -12,16 +13,41 @@
       class SchemaB:
         b: int
 
+      class SchemaC:
+        a: str
+
+      class SchemaD:
+        c: int
+
       class SchemaAB(SchemaA, SchemaB):
+        pass
+
+      class SchemaAC:
+        a: int
+
+      class SchemaABD(SchemaAB, SchemaD):
         pass
 
       df_a = DataSet[SchemaA]()
       df_b = DataSet[SchemaB]()
+      df_c = DataSet[SchemaC]()
+      df_d = DataSet[SchemaD]()
 
       df_ab_1: DataSet[SchemaAB] = df_a.join(df_b)
       reveal_type(df_ab_1)  # N: Revealed type is "strictly_typed_pandas.dataset.DataSet[main.TestJoins.SchemaAB]"
 
-      df_ab_2: DataSet[SchemaA] = df_a.join(df_b)  # E: Incompatible types in assignment (expression has type "DataSet[Join[SchemaA, SchemaB]]", variable has type "DataSet[SchemaA]")
+      df_ab_2: DataSet[SchemaAB] = df_b.join(df_a)
+      reveal_type(df_ab_2)  # N: Revealed type is "strictly_typed_pandas.dataset.DataSet[main.TestJoins.SchemaAB]"
+
+      df_ab_3: DataSet[SchemaA] = df_a.join(df_b)  # E: Incompatible types in assignment (expression has type "DataSet[Join[SchemaA, SchemaB]]", variable has type "DataSet[SchemaA]")
+
+      df_ac: DataSet[SchemaAC] = df_a.join(df_c)
+      reveal_type(df_ac)  # N: Revealed type is "strictly_typed_pandas.dataset.DataSet[main.TestJoins.SchemaAC]"
+
+      df_ca: DataSet[SchemaAC] = df_c.join(df_a)  # E: Incompatible types in assignment (expression has type "DataSet[Join[SchemaC, SchemaA]]", variable has type "DataSet[SchemaAC]")
+
+      df_abd: DataSet[SchemaABD] = df_a.join(df_b).join(df_d)
+      reveal_type(df_abd)  # N: Revealed type is "strictly_typed_pandas.dataset.DataSet[main.TestJoins.SchemaABD]"
 
     class TestSchemasConvertedToProtocols:
       class SchemaA:
@@ -38,14 +64,54 @@
         b: int
 
       class SchemaE:
-        a: pd.PeriodDtype
+        a: PeriodDtype[Tuple[Literal["period"], Literal["D"]]]
 
       class SchemaF:
-        a: pd.PeriodDtype
+        a: PeriodDtype[Tuple[Literal["freq"], Literal["D"]]]
+
+      class SchemaG:
+        a: PeriodDtype[Tuple[Literal["freq"], pd.offsets.MonthEnd]]
+
+      class SchemaH:
+        a: pd.StringDtype
+
+      class SchemaI:
+        a: pd.StringDtype
+
+      class SchemaJ:
+        a: StringDtype
+
+      class SchemaK:
+        a: IntervalDtype[
+            Tuple[
+                Literal["subtype"], Literal["int64"],
+                Literal["closed"], Literal["right"],
+            ]
+        ]
+
+      class SchemaL:
+        a: IntervalDtype[
+            Tuple[
+                Literal["closed"], Literal["right"],
+                Literal["subtype"], Literal["int64"],
+            ]
+        ]
+
+      # Schemas are only transformed to Protocols when they are declared somewhere in a typedef (`DataSet[Schema]()`) is not sufficient)
+      # This is fine, since it doesn't affect Join[SchemaA, SchemaB] (which is the only place where we really use this anyway)
+      # For this test, we'll just declare these here.
+      a: DataSet[SchemaF]
+      b: DataSet[SchemaI]
+      b: DataSet[SchemaK]
 
       df_a: DataSet[SchemaB] = DataSet[SchemaA]()
       df_b: DataSet[SchemaC] = DataSet[SchemaA]()  # E: Incompatible types in assignment (expression has type "DataSet[SchemaA]", variable has type "DataSet[SchemaC]")
       df_c: DataSet[SchemaD] = DataSet[SchemaA]()  # E: Incompatible types in assignment (expression has type "DataSet[SchemaA]", variable has type "DataSet[SchemaD]")
       df_d: DataSet[SchemaA] = DataSet[SchemaD]()  # E: Incompatible types in assignment (expression has type "DataSet[SchemaD]", variable has type "DataSet[SchemaA]")
       df_e: DataSet[SchemaE] = DataSet[SchemaF]()
-      df_f: DataSet[SchemaA] = DataSet[SchemaE]()
+      df_f: DataSet[SchemaA] = DataSet[SchemaE]()  # E: Incompatible types in assignment (expression has type "DataSet[SchemaE]", variable has type "DataSet[SchemaA]")
+      df_g: DataSet[SchemaE] = DataSet[SchemaG]()  # E: Incompatible types in assignment (expression has type "DataSet[SchemaG]", variable has type "DataSet[SchemaE]")
+      df_h: DataSet[SchemaH] = DataSet[SchemaI]()
+      df_i: DataSet[SchemaJ] = DataSet[SchemaH]()  # E: Incompatible types in assignment (expression has type "DataSet[SchemaH]", variable has type "DataSet[SchemaJ]")
+      df_i: DataSet[SchemaA] = DataSet[SchemaH]()  # E: Incompatible types in assignment (expression has type "DataSet[SchemaH]", variable has type "DataSet[SchemaA]")
+      df_i: DataSet[SchemaL] = DataSet[SchemaK]()  # E: Incompatible types in assignment (expression has type "DataSet[SchemaK]", variable has type "DataSet[SchemaL]")

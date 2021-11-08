@@ -9,7 +9,7 @@ from strictly_typed_pandas.core.validate_schema import (
     check_for_duplicate_columns, check_index_for_unsupported_datatypes, validate_schema
 )
 from strictly_typed_pandas.core.create_empty_dataframe import create_empty_indexed_dataframe
-from strictly_typed_pandas.core.pandas_types import FrameOrSeries
+from strictly_typed_pandas.core.typevars import FrameOrSeries
 
 
 _IndexSchema = TypeVar("_IndexSchema")
