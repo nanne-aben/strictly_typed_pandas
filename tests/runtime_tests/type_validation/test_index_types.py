@@ -32,8 +32,7 @@ def test_supported_index_data_type():
 
 def test_unsupported_index_data_type():
     dtypes = [
-        bool, np.bool_, pdt.sparse, pdt.sparse_int64, pdt.int64,
-        pdt.boolean, pdt.string, pdt.string_pyarrow
+        bool, np.bool_, pdt.sparse, pdt.sparse_int64
     ]
     for dtype in dtypes:
         class IndexSchema:

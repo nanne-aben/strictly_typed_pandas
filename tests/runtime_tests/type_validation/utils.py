@@ -5,7 +5,7 @@ import inspect
 from typing import Any
 
 from strictly_typed_pandas import DataSet
-from tests.runtime_tests.type_validation.pandas_dtypes import BackwardCompatibility
+from strictly_typed_pandas.core.pandas_types import BackwardCompatibility
 
 
 def is_backward_compatibility_type(dtype) -> bool:
