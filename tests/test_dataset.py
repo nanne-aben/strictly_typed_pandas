@@ -81,7 +81,8 @@ def test_dataset_immutable() -> None:
         df.assign(a=strings, inplace=True)
 
     with pytest.raises(NotImplementedError):
-        df.set_index(["a"], True, False, True)  # 4th argument is inplace
+        # 4th argument is inplace
+        df.set_index(["a"], True, False, True)  # type: ignore
 
     assert isinstance(df.assign(a=strings), pd.DataFrame)
 
