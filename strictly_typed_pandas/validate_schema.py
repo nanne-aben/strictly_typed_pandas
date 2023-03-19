@@ -16,12 +16,11 @@ def check_for_duplicate_columns(names_index: Set[str], names_data: Set[str]) -> 
 
 
 def check_index_for_unsupported_datatypes(schema: Dict[str, Any]) -> None:
-    unsupported_dtypes = [bool, np.bool_, Int64Dtype, BooleanDtype, StringDtype]
-    dtypes = [dtype for _, dtype in schema.items() if dtype in unsupported_dtypes or isinstance(dtype, SparseDtype)]
+    dtypes = [dtype for _, dtype in schema.items() if isinstance(dtype, SparseDtype)]
     if len(dtypes) > 0:
         msg = (
-            "As of Pandas 1.2.4, there is no support for the following data types in the index: {}. While this " +
-            "may change in future versions, we sugget you proceed with caution."
+            "As of Pandas 1.5.3, there is no support for the following data types in the index: {}. While this " +
+            "may change in future versions, we suggest you proceed with caution."
         )
         warnings.warn(msg.format(dtypes), SyntaxWarning)
 

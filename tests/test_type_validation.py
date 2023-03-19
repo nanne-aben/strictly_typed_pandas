@@ -59,7 +59,7 @@ def check_list_of_types(observed, expected_to_match, expected_to_fail):
 
 
 def test_numeric_base_python_types():
-    check_list_of_types(int, [np.int64, np.int_, np.integer, int], [float, np.float])
+    check_list_of_types(int, [np.int64, np.int_, np.integer, int], [float, np.float_])
     check_list_of_types(float, [np.float64, np.float_, float], [int, np.int_])
     check_list_of_types(bool, [np.bool_, bool], [int, np.int_])
 
@@ -118,7 +118,7 @@ class DataSchema:
 def test_supported_index_data_type():
     dtypes = [
         DatetimeTZDtype(tz="UTC"), CategoricalDtype, PeriodDtype(freq="D"), IntervalDtype, str, int, float, np.int,
-        np.float, np.datetime64, np.timedelta64, Any, object, np.object
+        np.float_, np.datetime64, np.timedelta64, Any, object, np.object
     ]
     for dtype in dtypes:
         if is_backward_compatibility_type(dtype):
@@ -131,7 +131,7 @@ def test_supported_index_data_type():
 
 
 def test_unsupported_index_data_type():
-    dtypes = [bool, np.bool_, SparseDtype(dtype=np.int64), Int64Dtype, BooleanDtype, StringDtype]
+    dtypes = [SparseDtype(dtype=np.int64)]
     for dtype in dtypes:
         class IndexSchema:
             a: dtype
