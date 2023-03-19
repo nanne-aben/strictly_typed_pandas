@@ -32,7 +32,7 @@ def test_empty_indexed_dataset() -> None:
     assert np.all(df.columns == ["c", "d"])
 
     assert df.index.get_level_values(0).dtype == int
-    assert df.index.get_level_values(1).dtype == object
+    assert df.index.get_level_values(1).dtype == object or isinstance(df.index.get_level_values(1).dtype, StringDtype)
 
     assert df.dtypes[0] == int
     assert df.dtypes[1] == object or isinstance(df.dtypes[1], StringDtype)

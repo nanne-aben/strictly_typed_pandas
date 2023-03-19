@@ -23,7 +23,7 @@ setup(
     long_description_content_type="text/x-rst",
     packages=find_packages(include=["strictly_typed_pandas", "strictly_typed_pandas.*"]),
     install_requires=get_requirements(),
-    python_requires=">3.6.0",
+    python_requires=">3.7.0",
     classifiers=["Typing :: Typed"],
     version_config=True,
     setup_requires=['setuptools-git-versioning'],

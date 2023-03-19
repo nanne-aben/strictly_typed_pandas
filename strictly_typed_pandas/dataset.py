@@ -60,11 +60,11 @@ class DataSetBase(pd.DataFrame, ABC):
             return attribute
 
     @property
-    def iloc(self) -> _ImmutableiLocIndexer:
+    def iloc(self) -> _ImmutableiLocIndexer:  # type: ignore
         return _ImmutableiLocIndexer("iloc", self)  # type: ignore
 
     @property
-    def loc(self) -> _ImmutableLocIndexer:
+    def loc(self) -> _ImmutableLocIndexer:  # type: ignore
         return _ImmutableLocIndexer("loc", self)  # type: ignore
 
     @abstractmethod

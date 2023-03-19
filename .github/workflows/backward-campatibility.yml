@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6]
+        python-version: ["3.7"]
 
     steps:
       - uses: actions/checkout@v2
@@ -21,7 +21,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install -r requirements-dev.txt
-          pip install pandas==0.23
+          pip install pandas==1.0.0
       - name: Test with pytest
         run: |
           pytest --typeguard-packages=strictly_typed_pandas,tests
