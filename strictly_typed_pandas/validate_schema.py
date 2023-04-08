@@ -1,11 +1,10 @@
 import numpy as np  # type: ignore
-import warnings
 
 from typing import Dict, Any, Set
 from pandas.core.dtypes.common import is_dtype_equal
 from pandas.api.extensions import ExtensionDtype
 
-from strictly_typed_pandas.pandas_types import SparseDtype, StringDtype
+from strictly_typed_pandas.pandas_types import StringDtype
 
 
 def check_for_duplicate_columns(names_index: Set[str], names_data: Set[str]) -> None:
