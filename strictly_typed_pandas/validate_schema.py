@@ -15,16 +15,6 @@ def check_for_duplicate_columns(names_index: Set[str], names_data: Set[str]) -> 
         raise TypeError(msg.format(intersection))
 
 
-def check_index_for_unsupported_datatypes(schema: Dict[str, Any]) -> None:
-    dtypes = [dtype for _, dtype in schema.items() if isinstance(dtype, SparseDtype)]
-    if len(dtypes) > 0:
-        msg = (
-            "As of Pandas 1.5.3, there is no support for the following data types in the index: {}. While this " +
-            "may change in future versions, we suggest you proceed with caution."
-        )
-        warnings.warn(msg.format(dtypes), SyntaxWarning)
-
-
 def validate_schema(schema_expected: Dict[str, Any], schema_observed: Dict[str, Any]):
     _check_names(set(schema_expected.keys()), set(schema_observed.keys()))
     _check_dtypes(schema_expected, schema_observed)

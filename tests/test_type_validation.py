@@ -118,7 +118,8 @@ class DataSchema:
 def test_supported_index_data_type():
     dtypes = [
         DatetimeTZDtype(tz="UTC"), CategoricalDtype, PeriodDtype(freq="D"), IntervalDtype, str, int, float, np.int_,
-        np.float_, np.datetime64, np.timedelta64, Any, object, np.object_
+        np.float_, np.datetime64, np.timedelta64, Any, object, np.object_, SparseDtype(dtype=np.int64), np.bool_,
+        Int64Dtype, BooleanDtype, StringDtype
     ]
     for dtype in dtypes:
         if is_backward_compatibility_type(dtype):
@@ -128,13 +129,3 @@ def test_supported_index_data_type():
             a: dtype
 
         IndexedDataSet[IndexSchema, DataSchema]()
-
-
-def test_unsupported_index_data_type():
-    dtypes = [SparseDtype(dtype=np.int64)]
-    for dtype in dtypes:
-        class IndexSchema:
-            a: dtype
-
-        with pytest.raises(TypeError):
-            IndexedDataSet[IndexSchema, DataSchema]()
