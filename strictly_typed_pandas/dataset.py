@@ -8,7 +8,7 @@ from strictly_typed_pandas.immutable import (
     _ImmutableiLocIndexer, _ImmutableLocIndexer, immutable_error_msg, inplace_argument_interceptor
 )
 from strictly_typed_pandas.validate_schema import (
-    check_for_duplicate_columns, check_index_for_unsupported_datatypes, validate_schema
+    check_for_duplicate_columns, validate_schema
 )
 from strictly_typed_pandas.create_empty_dataframe import create_empty_dataframe, create_empty_indexed_dataframe
 
@@ -164,8 +164,6 @@ class IndexedDataSet(Generic[T, V], DataSetBase):
             df = create_empty_indexed_dataframe(schema_index_expected, schema_data_expected)
             super().__init__(df)
         else:
-            check_index_for_unsupported_datatypes(schema_index_expected)
-
             schema_data_observed = dict(zip(self.columns, self.dtypes))
             schema_index_observed = {
                 name: self.index.get_level_values(i).dtype

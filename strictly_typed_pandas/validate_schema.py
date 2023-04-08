@@ -1,11 +1,10 @@
 import numpy as np  # type: ignore
-import warnings
 
 from typing import Dict, Any, Set
 from pandas.core.dtypes.common import is_dtype_equal
 from pandas.api.extensions import ExtensionDtype
 
-from strictly_typed_pandas.pandas_types import SparseDtype, StringDtype
+from strictly_typed_pandas.pandas_types import StringDtype
 
 
 def check_for_duplicate_columns(names_index: Set[str], names_data: Set[str]) -> None:
@@ -13,16 +12,6 @@ def check_for_duplicate_columns(names_index: Set[str], names_data: Set[str]) -> 
     if len(intersection) > 0:
         msg = "The following column is present in both the index schema and the data schema: {}"
         raise TypeError(msg.format(intersection))
-
-
-def check_index_for_unsupported_datatypes(schema: Dict[str, Any]) -> None:
-    dtypes = [dtype for _, dtype in schema.items() if isinstance(dtype, SparseDtype)]
-    if len(dtypes) > 0:
-        msg = (
-            "As of Pandas 1.5.3, there is no support for the following data types in the index: {}. While this " +
-            "may change in future versions, we suggest you proceed with caution."
-        )
-        warnings.warn(msg.format(dtypes), SyntaxWarning)
 
 
 def validate_schema(schema_expected: Dict[str, Any], schema_observed: Dict[str, Any]):
