@@ -1,4 +1,4 @@
-numpy
+numpy<=1.24.2
 pandas<=2.0.0
 pandas-stubs<=1.5.3.230321
 typeguard<=2.13.3
