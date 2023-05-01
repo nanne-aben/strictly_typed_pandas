@@ -7,4 +7,3 @@ jupyter==1.0.0
 sphinx==6.2.1
 sphinx_rtd_theme==1.2.0
 nbsphinx==0.9.1
-ipython<=8.13.1
