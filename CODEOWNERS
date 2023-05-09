@@ -1,1 +1,3 @@
-requirements.txt @nanne-aben
+* @nanne-aben
+requirements-dev.txt *
+docs/requirements.txt *
