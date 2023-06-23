@@ -1,7 +1,7 @@
 mypy==1.4.0 
 flake8==6.0.0
 coverage==7.2.7
-pytest==7.3.2 
+pytest==7.4.0 
 papermill==2.4.0
 jupyter==1.0.0
 sphinx==6.2.1
