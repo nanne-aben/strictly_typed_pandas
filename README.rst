@@ -56,8 +56,8 @@ For example notebooks and API documentation, please see our `ReadTheDocs <https:
 FAQ
 ===
 
-| **How is this different from Dataenforce / Pandera?**
-| The main difference: `strictly_typed_pandas` works really well with `mypy`, allowing you to catch many of the errors during linting-time (i.e. while your coding), rather than during run-time.
+| **Do you know of something similar for pyspark?**
+| Yes! Check out our package `typedspark <https://github.com/kaiko-ai/typedspark/>`_.
 |
 | **Why use Python if you want static typing?**
 | There are just so many good packages for data science in Python. Rather than sacrificing all of that by moving to a different language, I'd like to make the Pythonverse a little bit better.
