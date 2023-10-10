@@ -3,7 +3,7 @@ import typeguard
 from strictly_typed_pandas import DataSet, IndexedDataSet
 
 
-def check_dataset(argname: str, value, expected_type, memo: typeguard._TypeCheckMemo) -> None:
+def check_dataset(argname: str, value, expected_type, memo: typeguard.TypeCheckMemo) -> None:
     schema_expected = expected_type.__args__[0]
     if not isinstance(value, DataSet):
         msg = "Type of {argname} must be a DataSet[{schema_expected}]; got {class_observed} instead"
@@ -27,7 +27,7 @@ def check_dataset(argname: str, value, expected_type, memo: typeguard._TypeCheck
         )
 
 
-def check_indexed_dataset(argname: str, value, expected_type, memo: typeguard._TypeCheckMemo):
+def check_indexed_dataset(argname: str, value, expected_type, memo: typeguard.TypeCheckMemo):
     schema_index_expected = expected_type.__args__[0]
     schema_data_expected = expected_type.__args__[1]
     if not isinstance(value, IndexedDataSet):
@@ -62,6 +62,6 @@ def check_indexed_dataset(argname: str, value, expected_type, memo: typeguard._T
         )
 
 
-typeguard.origin_type_checkers[DataSet] = check_dataset
-typeguard.origin_type_checkers[IndexedDataSet] = check_indexed_dataset
+typeguard._checkers.origin_type_checkers[DataSet] = check_dataset
+typeguard._checkers.origin_type_checkers[IndexedDataSet] = check_indexed_dataset
 typechecked = typeguard.typechecked
