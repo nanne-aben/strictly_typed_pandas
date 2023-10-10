@@ -12,3 +12,4 @@
    advanced
    deepdive_into_dtypes
    api
+   contributing
