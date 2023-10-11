@@ -7,10 +7,7 @@ from strictly_typed_pandas import DataSet, IndexedDataSet
 def check_dataset(value: Any, origin_type: Any, args: Tuple[Any, ...],  memo: typeguard.TypeCheckMemo) -> None:
     schema_expected = args[0]
     if not isinstance(value, DataSet):
-        msg = "Type must be a DataSet[{schema_expected}]; got {class_observed} instead".format(
-                schema_expected=typeguard.qualified_name(schema_expected),
-                class_observed=typeguard.qualified_name(value)
-            )
+        msg = f"Type must be a DataSet[{schema_expected}]; got {value} instead"
         if memo.config.typecheck_fail_callback:
             memo.config.typecheck_fail_callback(typeguard.TypeCheckError(msg), memo)
         else:
@@ -18,10 +15,7 @@ def check_dataset(value: Any, origin_type: Any, args: Tuple[Any, ...],  memo: ty
 
     schema_observed = value.__orig_class__.__args__[0]
     if schema_observed != schema_expected:
-        msg = "Type must be a DataSet[{schema_expected}]; got DataSet[{schema_observed}] instead".format(
-                schema_expected=typeguard.qualified_name(schema_expected),
-                schema_observed=typeguard.qualified_name(schema_observed)
-            )
+        msg = f"Type must be a DataSet[{schema_expected}]; got DataSet[{schema_observed}] instead"
         if memo.config.typecheck_fail_callback:
             memo.config.typecheck_fail_callback(typeguard.TypeCheckError(msg), memo)
         else:
@@ -33,13 +27,9 @@ def check_indexed_dataset(value: Any, origin_type: Any, args: Tuple[Any, ...],  
     schema_data_expected = args[1]
     if not isinstance(value, IndexedDataSet):
         msg = (
-            "Type must be a IndexedDataSet[{schema_index_expected},{schema_data_expected}];" +
-            "got {class_observed} instead"
-        ).format(
-                schema_index_expected=typeguard.qualified_name(schema_index_expected),
-                schema_data_expected=typeguard.qualified_name(schema_data_expected),
-                class_observed=typeguard.qualified_name(value)
-            )
+            f"Type must be a IndexedDataSet[{schema_index_expected},{schema_data_expected}]; " +
+            f"got {value} instead"
+        )
 
         if memo.config.typecheck_fail_callback:
             memo.config.typecheck_fail_callback(typeguard.TypeCheckError(msg), memo)
@@ -50,13 +40,8 @@ def check_indexed_dataset(value: Any, origin_type: Any, args: Tuple[Any, ...],  
     schema_data_observed = value.__orig_class__.__args__[1]
     if schema_index_observed != schema_index_expected or schema_data_observed != schema_data_expected:
         msg = (
-            "Type must be a IndexedDataSet[{schema_index_expected},{schema_data_expected}];" +
-            "got IndexedDataSet[{schema_index_observed},{schema_data_observed}] instead"
-        ).format(
-              schema_index_expected=typeguard.qualified_name(schema_index_expected),
-              schema_data_expected=typeguard.qualified_name(schema_data_expected),
-              schema_index_observed=typeguard.qualified_name(schema_index_observed),
-              schema_data_observed=typeguard.qualified_name(schema_data_observed)
+            f"Type must be a IndexedDataSet[{schema_index_expected},{schema_data_expected}];" +
+            f"got IndexedDataSet[{schema_index_observed},{schema_data_observed}] instead"
         )
         if memo.config.typecheck_fail_callback:
             memo.config.typecheck_fail_callback(typeguard.TypeCheckError(msg), memo)

@@ -2,6 +2,8 @@ import pytest
 import pandas as pd
 import numpy as np  # type: ignore
 
+from typeguard import typechecked
+
 from strictly_typed_pandas import DataSet
 from strictly_typed_pandas.pandas_types import StringDtype
 
@@ -93,6 +95,7 @@ def test_dataset_to_dataframe() -> None:
     assert isinstance(df.to_frame(), pd.DataFrame)
 
 
+@typechecked
 def foo(df: DataSet[Schema]) -> DataSet[Schema]:
     return df
 

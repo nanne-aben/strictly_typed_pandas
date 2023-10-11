@@ -2,6 +2,8 @@ import pytest
 import pandas as pd
 import numpy as np  # type: ignore
 
+from typeguard import typechecked
+
 from strictly_typed_pandas import IndexedDataSet
 from strictly_typed_pandas.pandas_types import StringDtype
 
@@ -58,6 +60,7 @@ def test_overlapping_columns():
         IndexedDataSet[IndexSchema, IndexSchema]()
 
 
+@typechecked
 def foo(df: IndexedDataSet[IndexSchema, DataSchema]) -> IndexedDataSet[IndexSchema, DataSchema]:
     return df
 
