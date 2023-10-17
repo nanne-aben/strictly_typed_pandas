@@ -13,7 +13,7 @@ repos:
     types: [python]
   - id: pytest
     name: pytest
-    entry: coverage run -m pytest --typeguard-packages=strictly_typed_pandas,tests
+    entry: coverage run -m pytest
     language: system
     types: [python]
     pass_filenames: false
