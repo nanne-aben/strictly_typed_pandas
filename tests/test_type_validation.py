@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np  # type: ignore
 
-from typing import Any, Callable
+from typing import Any, Callable, Union
 
 from strictly_typed_pandas import DataSet, IndexedDataSet
 from strictly_typed_pandas.pandas_types import (
@@ -28,7 +28,7 @@ def is_backward_compatibility_type(dtype) -> bool:
     return False
 
 
-def are_they_equal(observed, expected):
+def are_they_equal(observed, expected) -> Union[bool, float]:
     if is_backward_compatibility_type(observed) or is_backward_compatibility_type(expected):
         return np.nan
 
@@ -125,6 +125,6 @@ def test_supported_index_data_type():
             continue
 
         class IndexSchema:
-            a: dtype
+            a: dtype  # type: ignore
 
         IndexedDataSet[IndexSchema, DataSchema]()
