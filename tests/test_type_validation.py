@@ -21,7 +21,7 @@ def is_backward_compatibility_type(dtype) -> bool:
     if isinstance(dtype, BackwardCompatibility):
         return True
 
-    if dtype not in [Any, np.integer]:
+    if dtype != Any:
         if isinstance(dtype, Callable) and isinstance(dtype(), BackwardCompatibility):  # type: ignore
             return True
 
@@ -58,13 +58,13 @@ def check_list_of_types(observed, expected_to_match, expected_to_fail):
 
 
 def test_numeric_base_python_types():
-    check_list_of_types(int, [np.int64, np.int_, np.integer, int], [float, np.float_])
+    check_list_of_types(int, [np.int64, np.int_, int], [float, np.float_])
     check_list_of_types(float, [np.float64, np.float_, float], [int, np.int_])
     check_list_of_types(bool, [np.bool_, bool], [int, np.int_])
 
 
 def test_numpy_types():
-    check_list_of_types(np.int64, [np.int64, np.int_, np.integer, int], [float, np.float_])
+    check_list_of_types(np.int64, [np.int64, np.int_, int], [float, np.float_])
     check_list_of_types(np.float64, [np.float64, np.float_, float], [int, np.int_])
     check_list_of_types(np.bool_, [np.bool_, bool], [int, np.int_])
     check_list_of_types(np.datetime64, [np.datetime64], [np.timedelta64, DatetimeTZDtype(tz="UTC"), np.int_])
@@ -99,7 +99,7 @@ def test_strings():
 
     # as long as this is true
     df = pd.DataFrame({"a": ["a", "b", "c"]})
-    assert df.dtypes[0] == object
+    assert df.dtypes.iloc[0] == object
     # we'll need to do this
     check_list_of_types(object, [str], [StringDtype])
 
