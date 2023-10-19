@@ -14,6 +14,8 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
+# This is a configuration file we shouldn't be checking it.
+# mypy: ignore-errors
 
 # -- Project information -----------------------------------------------------
 
