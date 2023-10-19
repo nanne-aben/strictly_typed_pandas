@@ -32,10 +32,9 @@ def create_empty_dataframe(schema: Dict[str, Any]) -> pd.DataFrame:
     return pd.DataFrame(res)
 
 
-def create_empty_indexed_dataframe(index_schema: Dict[str, Any], data_schema: Dict[str, Any]) -> pd.DataFrame:
+def create_empty_indexed_dataframe(
+    index_schema: Dict[str, Any], data_schema: Dict[str, Any]
+) -> pd.DataFrame:
     df_index = create_empty_dataframe(index_schema)
     df_data = create_empty_dataframe(data_schema)
-    return (
-        pd.concat([df_index, df_data], axis=1)
-        .set_index(list(index_schema.keys()))
-    )
+    return pd.concat([df_index, df_data], axis=1).set_index(list(index_schema.keys()))

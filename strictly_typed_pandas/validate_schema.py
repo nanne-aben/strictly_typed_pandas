@@ -23,17 +23,13 @@ def _check_names(names_expected: Set[str], names_observed: Set[str]) -> None:
     diff = names_observed - names_expected
     if diff:
         raise TypeError(
-            "Data contains the following columns not present in schema: {diff}".format(
-                diff=diff
-            )
+            "Data contains the following columns not present in schema: {diff}".format(diff=diff)
         )
 
     diff = names_expected - names_observed
     if diff:
         raise TypeError(
-            "Schema contains the following columns not present in data: {diff}".format(
-                diff=diff
-            )
+            "Schema contains the following columns not present in data: {diff}".format(diff=diff)
         )
 
 
@@ -54,7 +50,9 @@ def _check_dtypes(schema_expected: Dict[str, Any], schema_observed: Dict[str, An
             if dtype_observed == dtype_expected or np.issubdtype(dtype_observed, dtype_expected):
                 continue
 
-        if isinstance(dtype_expected, ExtensionDtype) and is_dtype_equal(dtype_expected, dtype_observed):
+        if isinstance(dtype_expected, ExtensionDtype) and is_dtype_equal(
+            dtype_expected, dtype_observed
+        ):
             continue
 
         if dtype_observed != object and isinstance(dtype_observed, dtype_expected):
