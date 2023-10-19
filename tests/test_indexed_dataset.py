@@ -32,7 +32,9 @@ def test_empty_indexed_dataset() -> None:
     assert np.all(df.columns == ["c", "d"])
 
     assert df.index.get_level_values(0).dtype == int
-    assert df.index.get_level_values(1).dtype == object or isinstance(df.index.get_level_values(1).dtype, StringDtype)
+    assert df.index.get_level_values(1).dtype == object or isinstance(
+        df.index.get_level_values(1).dtype, StringDtype
+    )
 
     assert df.dtypes.iloc[0] == int
     assert df.dtypes.iloc[1] == object or isinstance(df.dtypes.iloc[1], StringDtype)
@@ -40,14 +42,7 @@ def test_empty_indexed_dataset() -> None:
 
 def test_indexed_dataset() -> None:
     (
-        pd.DataFrame(
-            {
-                "a": [1, 2, 3],
-                "b": ["a", "b", "c"],
-                "c": [1, 2, 3],
-                "d": ["a", "b", "c"]
-            }
-        )
+        pd.DataFrame({"a": [1, 2, 3], "b": ["a", "b", "c"], "c": [1, 2, 3], "d": ["a", "b", "c"]})
         .set_index(["a", "b"])
         .pipe(IndexedDataSet[IndexSchema, DataSchema])
     )

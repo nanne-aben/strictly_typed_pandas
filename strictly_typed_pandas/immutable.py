@@ -5,9 +5,9 @@ from pandas.core.indexing import _iLocIndexer, _LocIndexer
 
 
 immutable_error_msg = (
-    "To ensure that the DataSet adheres to its schema, you cannot perform inplace modifications. You can either use " +
-    "dataset.to_dataframe() to cast the DataSet to a DataFrame, or use operations that return a DataFrame, e.g. " +
-    "df = df.assign(...)."
+    "To ensure that the DataSet adheres to its schema, you cannot perform inplace modifications. You can either use "
+    + "dataset.to_dataframe() to cast the DataSet to a DataFrame, or use operations that return a DataFrame, e.g. "
+    + "df = df.assign(...)."
 )
 
 

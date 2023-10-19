@@ -5,12 +5,16 @@ from abc import ABC, abstractmethod
 from typing import Any, Generic, TypeVar, get_type_hints
 
 from strictly_typed_pandas.immutable import (
-    _ImmutableiLocIndexer, _ImmutableLocIndexer, immutable_error_msg, inplace_argument_interceptor
+    _ImmutableiLocIndexer,
+    _ImmutableLocIndexer,
+    immutable_error_msg,
+    inplace_argument_interceptor,
 )
-from strictly_typed_pandas.validate_schema import (
-    check_for_duplicate_columns, validate_schema
+from strictly_typed_pandas.validate_schema import check_for_duplicate_columns, validate_schema
+from strictly_typed_pandas.create_empty_dataframe import (
+    create_empty_dataframe,
+    create_empty_indexed_dataframe,
 )
-from strictly_typed_pandas.create_empty_dataframe import create_empty_dataframe, create_empty_indexed_dataframe
 
 
 dataframe_functions = dict(inspect.getmembers(pd.DataFrame, predicate=inspect.isfunction))
@@ -19,10 +23,10 @@ dataframe_member_names = dict(inspect.getmembers(pd.DataFrame)).keys()
 
 class DataSetBase(pd.DataFrame, ABC):
     def __init__(self, *args, **kwargs) -> None:
-        '''
+        """
         This class is a subclass of `pd.DataFrame`, hence it is initialized with the same parameters as a `DataFrame`.
         See the Pandas `DataFrame` documentation for more information.
-        '''
+        """
         super().__init__(*args, **kwargs)
 
         if self.columns.duplicated().any():
@@ -72,15 +76,15 @@ class DataSetBase(pd.DataFrame, ABC):
         pass  # pragma: no cover
 
     def to_dataframe(self) -> pd.DataFrame:
-        '''
+        """
         Converts the object to a pandas `DataFrame`.
-        '''
+        """
         return pd.DataFrame(self)
 
     def to_frame(self) -> pd.DataFrame:
-        '''
+        """
         Synonym of to to_dataframe(): converts the object to a pandas `DataFrame`.
-        '''
+        """
         return self.to_dataframe()
 
 
@@ -89,7 +93,7 @@ V = TypeVar("V")
 
 
 class DataSet(Generic[T], DataSetBase):
-    '''
+    """
     `DataSet` allows for static type checking of pandas DataFrames, for example:
 
     .. code-block:: python
@@ -107,7 +111,8 @@ class DataSet(Generic[T], DataSetBase):
     The `DataSet[Schema]` annotations are compatible with:
         * `mypy` for type checking during linting-time (i.e. while you write your code).
         * `typeguard` for type checking during run-time (i.e. while you run your unit tests).
-    '''
+    """
+
     def _continue_initialization(self) -> None:
         schema_expected = get_type_hints(self._schema_annotations[0])
 
@@ -120,7 +125,7 @@ class DataSet(Generic[T], DataSetBase):
 
 
 class IndexedDataSet(Generic[T, V], DataSetBase):
-    '''
+    """
     `IndexedDataSet` allows for static type checking of indexed pandas DataFrames, for example:
 
     .. code-block:: text
@@ -150,14 +155,14 @@ class IndexedDataSet(Generic[T, V], DataSetBase):
     The `IndexedDataSet[Schema]` annotations are compatible with:
         * `mypy` for type checking during linting-time (i.e. while you write your code).
         * `typeguard` for type checking during run-time (i.e. while you run your unit tests).
-    '''
+    """
+
     def _continue_initialization(self) -> None:
         schema_index_expected = get_type_hints(self._schema_annotations[0])
         schema_data_expected = get_type_hints(self._schema_annotations[1])
 
         check_for_duplicate_columns(
-            set(schema_index_expected.keys()),
-            set(schema_data_expected.keys())
+            set(schema_index_expected.keys()), set(schema_data_expected.keys())
         )
 
         if self.shape == (0, 0) and self.index.shape == (0,):
