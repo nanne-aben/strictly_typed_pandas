@@ -23,8 +23,9 @@ dataframe_member_names = dict(inspect.getmembers(pd.DataFrame)).keys()
 
 class DataSetBase(pd.DataFrame, ABC):
     def __init__(self, *args, **kwargs) -> None:
-        """
-        This class is a subclass of `pd.DataFrame`, hence it is initialized with the same parameters as a `DataFrame`.
+        """This class is a subclass of `pd.DataFrame`, hence it is initialized with the
+        same parameters as a `DataFrame`.
+
         See the Pandas `DataFrame` documentation for more information.
         """
         super().__init__(*args, **kwargs)
@@ -76,15 +77,11 @@ class DataSetBase(pd.DataFrame, ABC):
         pass  # pragma: no cover
 
     def to_dataframe(self) -> pd.DataFrame:
-        """
-        Converts the object to a pandas `DataFrame`.
-        """
+        """Converts the object to a pandas `DataFrame`."""
         return pd.DataFrame(self)
 
     def to_frame(self) -> pd.DataFrame:
-        """
-        Synonym of to to_dataframe(): converts the object to a pandas `DataFrame`.
-        """
+        """Synonym of to to_dataframe(): converts the object to a pandas `DataFrame`."""
         return self.to_dataframe()
 
 
@@ -93,8 +90,7 @@ V = TypeVar("V")
 
 
 class DataSet(Generic[T], DataSetBase):
-    """
-    `DataSet` allows for static type checking of pandas DataFrames, for example:
+    """`DataSet` allows for static type checking of pandas DataFrames, for example:
 
     .. code-block:: python
 
@@ -125,8 +121,8 @@ class DataSet(Generic[T], DataSetBase):
 
 
 class IndexedDataSet(Generic[T, V], DataSetBase):
-    """
-    `IndexedDataSet` allows for static type checking of indexed pandas DataFrames, for example:
+    """`IndexedDataSet` allows for static type checking of indexed pandas DataFrames,
+    for example:
 
     .. code-block:: text
 

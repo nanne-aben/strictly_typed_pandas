@@ -23,6 +23,8 @@ jobs:
           pip install -r requirements-dev.txt
       - name: Lint with black
         run: black --check .
+      - name: Lint with docformatter
+        run: docformatter --black -c **/*.py
       - name: Lint with flake8
         run: |
           flake8
