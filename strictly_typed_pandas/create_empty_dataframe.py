@@ -1,9 +1,10 @@
-from strictly_typed_pandas.pandas_types import StringDtype
-import pandas as pd
-import numpy as np  # type: ignore
+from typing import Any, Callable, Dict
 
-from typing import Any, Dict, Callable
+import numpy as np  # type: ignore
+import pandas as pd
 from pandas.api.extensions import ExtensionDtype
+
+from strictly_typed_pandas.pandas_types import StringDtype
 
 
 def create_empty_dataframe(schema: Dict[str, Any]) -> pd.DataFrame:

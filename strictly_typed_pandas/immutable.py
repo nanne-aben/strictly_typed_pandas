@@ -1,8 +1,7 @@
 import inspect
-
 from typing import Any, Callable, Optional
-from pandas.core.indexing import _iLocIndexer, _LocIndexer
 
+from pandas.core.indexing import _iLocIndexer, _LocIndexer
 
 immutable_error_msg = (
     "To ensure that the DataSet adheres to its schema, you cannot perform inplace modifications. You can either use "

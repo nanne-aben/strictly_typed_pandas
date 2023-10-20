@@ -1,8 +1,8 @@
-import numpy as np  # type: ignore
+from typing import Any, Dict, Set
 
-from typing import Dict, Any, Set
-from pandas.core.dtypes.common import is_dtype_equal
+import numpy as np  # type: ignore
 from pandas.api.extensions import ExtensionDtype
+from pandas.core.dtypes.common import is_dtype_equal
 
 from strictly_typed_pandas.pandas_types import StringDtype
 

@@ -1,9 +1,13 @@
-import pandas as pd
 import inspect
-
 from abc import ABC, abstractmethod
 from typing import Any, Generic, TypeVar, get_type_hints
 
+import pandas as pd
+
+from strictly_typed_pandas.create_empty_dataframe import (
+    create_empty_dataframe,
+    create_empty_indexed_dataframe,
+)
 from strictly_typed_pandas.immutable import (
     _ImmutableiLocIndexer,
     _ImmutableLocIndexer,
@@ -11,11 +15,6 @@ from strictly_typed_pandas.immutable import (
     inplace_argument_interceptor,
 )
 from strictly_typed_pandas.validate_schema import check_for_duplicate_columns, validate_schema
-from strictly_typed_pandas.create_empty_dataframe import (
-    create_empty_dataframe,
-    create_empty_indexed_dataframe,
-)
-
 
 dataframe_functions = dict(inspect.getmembers(pd.DataFrame, predicate=inspect.isfunction))
 dataframe_member_names = dict(inspect.getmembers(pd.DataFrame)).keys()
