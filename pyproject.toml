@@ -1,2 +1,2 @@
-[tool.mypy]
-exclude = ['^docs\/.+\.py$']
+[tool.black]
+line-length = 100

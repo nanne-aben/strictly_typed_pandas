@@ -1,7 +1,8 @@
-mypy==1.6.0 
+mypy==1.6.1
 flake8==6.1.0
+black[jupyter]==23.10.0
 coverage==7.3.2
-pytest==7.4.2 
+pytest==7.4.2
 papermill==2.4.0
 jupyter==1.0.0
 sphinx<=7.2.6

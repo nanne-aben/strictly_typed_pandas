@@ -15,10 +15,7 @@ class AlternativeSchema:
     a: int
 
 
-dictionary = {
-    "a": [1, 2, 3],
-    "b": ["a", "b", "c"]
-}
+dictionary = {"a": [1, 2, 3], "b": ["a", "b", "c"]}
 
 
 def test_empty_dataset() -> None:
@@ -27,8 +24,8 @@ def test_empty_dataset() -> None:
     assert df.shape[0] == 0
     assert np.all(df.columns == ["a", "b"])
 
-    assert df.dtypes[0] == int
-    assert df.dtypes[1] == object or isinstance(df.dtypes[1], StringDtype)
+    assert df.dtypes.iloc[0] == int
+    assert df.dtypes.iloc[1] == object or isinstance(df.dtypes.iloc[1], StringDtype)
 
 
 def test_dataset() -> None:
@@ -42,23 +39,12 @@ def test_dataset_missing_colnames() -> None:
 
 def test_dataset_too_many_colnames() -> None:
     with pytest.raises(TypeError):
-        DataSet[Schema](
-            {
-                "a": [],
-                "b": [],
-                "c": []
-            }
-        )
+        DataSet[Schema]({"a": [], "b": [], "c": []})
 
 
 def test_dataset_check_types() -> None:
     with pytest.raises(TypeError):
-        DataSet[Schema](
-            {
-                "a": ["1", "2", "3"],
-                "b": ""
-            }
-        )
+        DataSet[Schema]({"a": ["1", "2", "3"], "b": ""})
 
 
 def test_dataset_immutable() -> None:
