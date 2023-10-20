@@ -35,6 +35,6 @@ jobs:
           coverage report -m
       - name: Run notebooks
         run: |
-           papermill docs/source/getting_started.ipynb output.json -k python3
-           papermill docs/source/advanced.ipynb output.json -k python3
-           papermill docs/source/deepdive_into_dtypes.ipynb output.json -k python3
+          for FILE in docs/source/*.ipynb; do 
+            jupyter nbconvert --to notebook $FILE --execute
+          done
