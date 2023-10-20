@@ -1,7 +1,7 @@
-import pandas as pd
-import numpy as np  # type: ignore
-
 from typing import Any, Callable, Union
+
+import numpy as np  # type: ignore
+import pandas as pd
 
 from strictly_typed_pandas import DataSet, IndexedDataSet
 from strictly_typed_pandas.pandas_types import (

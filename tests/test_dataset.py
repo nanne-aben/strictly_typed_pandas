@@ -1,6 +1,6 @@
-import pytest
-import pandas as pd
 import numpy as np  # type: ignore
+import pandas as pd
+import pytest
 
 from strictly_typed_pandas import DataSet
 from strictly_typed_pandas.pandas_types import StringDtype
