@@ -18,6 +18,11 @@ repos:
     language: system
     require_serial: true
     files: \.(py|ipynb)$
+  - id: isort
+    name: isort
+    entry: isort
+    language: system
+    types: [python]
   - id: pytest
     name: pytest
     entry: coverage run -m pytest --typeguard-packages=strictly_typed_pandas,tests
