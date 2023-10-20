@@ -36,5 +36,7 @@ jobs:
       - name: Run notebooks
         run: |
           for FILE in docs/source/*.ipynb; do 
-            jupyter nbconvert --to notebook $FILE --execute
+            BASE=$(basename $FILE)
+            cp $FILE .
+            jupyter nbconvert --to notebook $BASE --execute
           done
