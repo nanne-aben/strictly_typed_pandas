@@ -1,8 +1,9 @@
 import inspect
 from abc import ABC, abstractmethod
-from typing import Any, Generic, ParamSpec, TypeVar, get_type_hints
+from typing import Any, Generic, TypeVar, get_type_hints
 
 import pandas as pd
+from typing_extensions import ParamSpec
 
 from strictly_typed_pandas.create_empty_dataframe import (
     create_empty_dataframe,
