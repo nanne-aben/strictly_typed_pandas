@@ -118,6 +118,9 @@ class DataSet(Generic[T], DataSetBase):
             schema_observed = dict(zip(self.columns, self.dtypes))
             validate_schema(schema_expected, schema_observed)
 
+    def assign(self, **kwargs) -> pd.DataFrame:
+        return self.to_dataframe().assign(**kwargs)
+
 
 class IndexedDataSet(Generic[T, V], DataSetBase):
     """`IndexedDataSet` allows for static type checking of indexed pandas DataFrames,
