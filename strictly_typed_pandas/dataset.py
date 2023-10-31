@@ -1,6 +1,6 @@
 import inspect
 from abc import ABC, abstractmethod
-from typing import Any, Generic, TypeVar, get_type_hints
+from typing import Any, Generic, ParamSpec, TypeVar, get_type_hints
 
 import pandas as pd
 
@@ -18,6 +18,8 @@ from strictly_typed_pandas.validate_schema import check_for_duplicate_columns, v
 
 dataframe_functions = dict(inspect.getmembers(pd.DataFrame, predicate=inspect.isfunction))
 dataframe_member_names = dict(inspect.getmembers(pd.DataFrame)).keys()
+
+P = ParamSpec("P")
 
 
 class DataSetBase(pd.DataFrame, ABC):
@@ -83,6 +85,9 @@ class DataSetBase(pd.DataFrame, ABC):
         """Synonym of to to_dataframe(): converts the object to a pandas `DataFrame`."""
         return self.to_dataframe()
 
+    def assign(self, *args: P.args, **kwargs: P.kwargs) -> pd.DataFrame:
+        return self.to_dataframe().assign(*args, **kwargs)
+
 
 T = TypeVar("T")
 V = TypeVar("V")
@@ -117,9 +122,6 @@ class DataSet(Generic[T], DataSetBase):
         else:
             schema_observed = dict(zip(self.columns, self.dtypes))
             validate_schema(schema_expected, schema_observed)
-
-    def assign(self, **kwargs) -> pd.DataFrame:
-        return self.to_dataframe().assign(**kwargs)
 
 
 class IndexedDataSet(Generic[T, V], DataSetBase):
