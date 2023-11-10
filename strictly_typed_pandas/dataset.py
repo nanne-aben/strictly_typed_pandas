@@ -57,11 +57,11 @@ class DataSetBase(pd.DataFrame, ABC):
         raise NotImplementedError(immutable_error_msg)
 
     def __getattribute__(self, name: str) -> Any:
-        attribute = object.__getattribute__(self, name)
         if name in dataframe_functions:
+            attribute = self.to_dataframe().__getattribute__(name)
             return inplace_argument_interceptor(attribute)
         else:
-            return attribute
+            return object.__getattribute__(self, name)
 
     @property
     def iloc(self) -> _ImmutableiLocIndexer:  # type: ignore
@@ -82,9 +82,6 @@ class DataSetBase(pd.DataFrame, ABC):
     def to_frame(self) -> pd.DataFrame:
         """Synonym of to to_dataframe(): converts the object to a pandas `DataFrame`."""
         return self.to_dataframe()
-
-    def assign(self, **kwargs) -> pd.DataFrame:
-        return self.to_dataframe().assign(**kwargs)
 
 
 T = TypeVar("T")
