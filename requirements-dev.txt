@@ -1,4 +1,4 @@
-mypy==1.6.1
+mypy==1.7.0
 flake8==6.1.0
 black[jupyter]==23.11.0
 docformatter==1.7.5
