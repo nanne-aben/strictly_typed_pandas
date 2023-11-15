@@ -48,6 +48,11 @@ def test_indexed_dataset() -> None:
     )
 
 
+def test_missing_index():
+    with pytest.raises(TypeError, match="No named columns in index"):
+        pd.DataFrame({"a": [1, 2, 3]}).pipe(IndexedDataSet[IndexSchema, DataSchema])
+
+
 def test_overlapping_columns():
     with pytest.raises(TypeError):
         IndexedDataSet[IndexSchema, IndexSchema]()

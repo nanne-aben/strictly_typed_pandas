@@ -170,5 +170,8 @@ class IndexedDataSet(Generic[T, V], DataSetBase):
                 for i, name in enumerate(self.index.names)
             }
 
+            if all(name is None for name in self.index.names):
+                raise TypeError("No named columns in index. Did you remember to set the index?")
+
             validate_schema(schema_index_expected, schema_index_observed)
             validate_schema(schema_data_expected, schema_data_observed)
