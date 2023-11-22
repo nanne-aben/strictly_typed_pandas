@@ -57,11 +57,11 @@ class DataSetBase(pd.DataFrame, ABC):
         raise NotImplementedError(immutable_error_msg)
 
     def __getattribute__(self, name: str) -> Any:
+        attribute = object.__getattribute__(self, name)
         if name in dataframe_functions:
-            attribute = self.to_dataframe().__getattribute__(name)
             return inplace_argument_interceptor(attribute)
         else:
-            return object.__getattribute__(self, name)
+            return attribute
 
     @property
     def iloc(self) -> _ImmutableiLocIndexer:  # type: ignore
