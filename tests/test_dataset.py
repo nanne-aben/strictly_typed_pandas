@@ -1,3 +1,6 @@
+import pickle
+import tempfile
+
 import numpy as np  # type: ignore
 import pandas as pd
 import pytest
@@ -96,3 +99,13 @@ def test_typeguard_dataset() -> None:
 def test_duplicates() -> None:
     with pytest.raises(TypeError):
         DataSet[AlternativeSchema]([[1, 1]], columns=["a", "a"])
+
+
+def test_pickle():
+    df = DataSet[Schema](dictionary)
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        pickle.dump(df, open(f"{tmpdir}/test.pkl", "wb"))
+        loaded = pickle.load(open(f"{tmpdir}/test.pkl", "rb"))
+
+    assert (df == loaded).all().all()
