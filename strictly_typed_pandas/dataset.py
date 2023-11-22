@@ -58,7 +58,7 @@ class DataSetBase(pd.DataFrame, ABC):
 
     def __getattribute__(self, name: str) -> Any:
         if name in dataframe_functions:
-            attribute = self.to_dataframe().__getattribute__(name)
+            attribute = dataframe_functions[name].__get__(self, type(self))
             return inplace_argument_interceptor(attribute)
         else:
             return object.__getattribute__(self, name)
