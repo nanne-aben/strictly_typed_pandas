@@ -5,7 +5,7 @@ docformatter==1.7.5
 isort==5.13.2
 coverage==7.3.3
 pytest==7.4.3
-nbconvert==7.12.0
+nbconvert==7.13.0
 jupyter==1.0.0
 sphinx<=7.2.6
 sphinx_rtd_theme==2.0.0
