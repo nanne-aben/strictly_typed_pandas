@@ -1,0 +1,4 @@
+target = "strictly_typed_pandas/_vendor"
+packages = [
+    "typeguard==2.13.3",
+]

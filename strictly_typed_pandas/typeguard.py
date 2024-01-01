@@ -1,6 +1,5 @@
-import typeguard
-
 from strictly_typed_pandas import DataSet, IndexedDataSet
+from strictly_typed_pandas._vendor import typeguard
 
 
 def check_dataset(argname: str, value, expected_type, memo: typeguard._TypeCheckMemo) -> None:
