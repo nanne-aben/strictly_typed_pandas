@@ -1,4 +1,5 @@
 import sys
+from typing import List
 
 from ._vendor.typeguard.importhook import install_import_hook
 
@@ -33,7 +34,7 @@ def pytest_addoption(parser):
         )
 
 
-def _parse_packages(val: str) -> list[str]:
+def _parse_packages(val: str) -> List[str]:
     if val is None or not val.strip():
         return []
     return [pkg.strip() for pkg in val.split(",")]
