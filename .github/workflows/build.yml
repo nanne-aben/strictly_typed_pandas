@@ -21,6 +21,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install -r requirements-dev.txt
+          pip install -e .
       - name: Lint with isort
         run: isort --check .
       - name: Lint with black
@@ -33,7 +34,7 @@ jobs:
         run: mypy .
       - name: Test with pytest
         run: |
-          coverage run -m pytest --typeguard-packages=strictly_typed_pandas,tests
+          coverage run -m pytest --typeguard-packages=tests
           coverage report -m
       - name: Run notebooks
         run: |
