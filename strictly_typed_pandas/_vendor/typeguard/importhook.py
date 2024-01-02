@@ -22,7 +22,7 @@ class TypeguardTransformer(ast.NodeVisitor):
         self._parents = []
 
     def visit_Module(self, node: ast.Module):
-        # Insert "from strictly_typed_pandas._vendor import typeguard as stp_typeguard" after any "from __future__ ..." imports
+        # Insert "from strictly_typed_pandas._vendor import typeguard" after any "from __future__ ..." imports
         for i, child in enumerate(node.body):
             if isinstance(child, ast.ImportFrom) and child.module == '__future__':
                 continue
@@ -33,7 +33,7 @@ class TypeguardTransformer(ast.NodeVisitor):
                     i,
                     ast.ImportFrom(
                         module="strictly_typed_pandas._vendor",
-                        names=[ast.alias(name="typeguard", asname="stp_typeguard")],
+                        names=[ast.alias(name="typeguard", asname=None)],
                         level=0,
                     ),
                 )
@@ -46,7 +46,7 @@ class TypeguardTransformer(ast.NodeVisitor):
 
     def visit_ClassDef(self, node: ast.ClassDef):
         node.decorator_list.append(
-            ast.Attribute(ast.Name(id='stp_typeguard', ctx=ast.Load()), 'typechecked', ast.Load())
+            ast.Attribute(ast.Name(id='typeguard', ctx=ast.Load()), 'typechecked', ast.Load())
         )
         self._parents.append(node)
         self.generic_visit(node)
@@ -63,7 +63,7 @@ class TypeguardTransformer(ast.NodeVisitor):
         if has_annotated_args or has_annotated_return:
             node.decorator_list.insert(
                 0,
-                ast.Attribute(ast.Name(id='stp_typeguard', ctx=ast.Load()), 'typechecked', ast.Load())
+                ast.Attribute(ast.Name(id='typeguard', ctx=ast.Load()), 'typechecked', ast.Load())
             )
 
         self._parents.append(node)
