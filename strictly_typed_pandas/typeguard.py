@@ -1,6 +1,17 @@
-import typeguard
+from importlib.metadata import PackageNotFoundError, version
 
 from strictly_typed_pandas import DataSet, IndexedDataSet
+from strictly_typed_pandas._vendor import typeguard
+
+try:
+    COMPATIBLE_EXTERNAL_TYPEGUARD_EXISTS = version("typeguard").startswith("2.")
+except PackageNotFoundError:
+    COMPATIBLE_EXTERNAL_TYPEGUARD_EXISTS = False
+
+if COMPATIBLE_EXTERNAL_TYPEGUARD_EXISTS:
+    import typeguard as external_typeguard
+else:
+    external_typeguard = None
 
 
 def check_dataset(argname: str, value, expected_type, memo: typeguard._TypeCheckMemo) -> None:
@@ -68,3 +79,7 @@ def check_indexed_dataset(argname: str, value, expected_type, memo: typeguard._T
 typeguard.origin_type_checkers[DataSet] = check_dataset
 typeguard.origin_type_checkers[IndexedDataSet] = check_indexed_dataset
 typechecked = typeguard.typechecked
+
+if external_typeguard is not None:
+    external_typeguard.origin_type_checkers[DataSet] = check_dataset
+    external_typeguard.origin_type_checkers[IndexedDataSet] = check_indexed_dataset

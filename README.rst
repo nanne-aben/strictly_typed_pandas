@@ -35,11 +35,11 @@ Where `DataSet`:
 
 The `DataSet[Schema]` annotations are compatible with:
     * `mypy` for type checking during linting-time (i.e. while you write your code).
-    * `typeguard` for type checking during run-time (i.e. while you run your unit tests).
+    * `typeguard` (<v3.0) for type checking during run-time (i.e. while you run your unit tests).
 
 To get the most out of `strictly_typed_pandas`, be sure to:
     * set up `mypy` in your IDE.
-    * run your unit tests with `pytest --typeguard-packages=foo.bar` (where `foo.bar` is your package name).
+    * run your unit tests with `pytest --stp-typeguard-packages=foo.bar` (where `foo.bar` is your package name).
 
 Installation
 ============

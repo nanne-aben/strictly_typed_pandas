@@ -11,5 +11,6 @@
    getting_started
    advanced
    deepdive_into_dtypes
+   typeguard
    api
    contributing

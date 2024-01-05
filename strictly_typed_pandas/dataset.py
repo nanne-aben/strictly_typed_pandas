@@ -105,7 +105,7 @@ class DataSet(Generic[T], DataSetBase):
 
     The `DataSet[Schema]` annotations are compatible with:
         * `mypy` for type checking during linting-time (i.e. while you write your code).
-        * `typeguard` for type checking during run-time (i.e. while you run your unit tests).
+        * `typeguard` (<3.0) for type checking during run-time (i.e. while you run your unit tests).
     """
 
     def _continue_initialization(self) -> None:
@@ -149,7 +149,7 @@ class IndexedDataSet(Generic[T, V], DataSetBase):
 
     The `IndexedDataSet[Schema]` annotations are compatible with:
         * `mypy` for type checking during linting-time (i.e. while you write your code).
-        * `typeguard` for type checking during run-time (i.e. while you run your unit tests).
+        * `typeguard` (<3.0) for type checking during run-time (i.e. while you run your unit tests).
     """
 
     def _continue_initialization(self) -> None:

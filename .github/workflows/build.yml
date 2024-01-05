@@ -21,6 +21,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install -r requirements-dev.txt
+          pip install -e .
       - name: Lint with isort
         run: isort --check .
       - name: Lint with black
@@ -33,7 +34,7 @@ jobs:
         run: mypy .
       - name: Test with pytest
         run: |
-          coverage run -m pytest --typeguard-packages=strictly_typed_pandas,tests
+          coverage run -m pytest --stp-typeguard-packages=tests
           coverage report -m
       - name: Run notebooks
         run: |
@@ -42,3 +43,15 @@ jobs:
             cp $FILE .
             jupyter nbconvert --to notebook $BASE --execute
           done
+      - name: Run pytest with --typeguard-packages for backwards compatibility
+        run: |
+          pytest --typeguard-packages=tests
+      - name: Run pytest with compatible typeguard installed
+        run: |
+          pip install typeguard==2.13.2
+          pytest --typeguard-packages=tests
+          pytest --stp-typeguard-packages=tests
+      - name: Run pytest with incompatible typeguard installed
+        run: |
+          pip install typeguard==4.1.5
+          pytest --stp-typeguard-packages=tests

@@ -1,3 +1,4 @@
+exclude: '^strictly_typed_pandas/_vendor'
 repos:
 - repo: local
   hooks:
@@ -25,7 +26,7 @@ repos:
     types: [python]
   - id: pytest
     name: pytest
-    entry: coverage run -m pytest --typeguard-packages=strictly_typed_pandas,tests
+    entry: coverage run -m pytest --typeguard-packages=tests
     language: system
     types: [python]
     pass_filenames: false

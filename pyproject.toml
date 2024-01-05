@@ -1,7 +1,19 @@
 [tool.black]
 line-length = 100
+force-exclude = ["strictly_typed_pandas/_vendor/*"]
 
 [tool.isort]
 profile = "black"
 line_length = 100
+extend_skip_glob = ["strictly_typed_pandas/_vendor/*"]
 
+[tool.mypy]
+exclude = ['strictly_typed_pandas/_vendor/.*']
+
+[[tool.mypy.overrides]]
+module="strictly_typed_pandas._vendor.*"
+follow_imports = 'skip'
+
+[[tool.mypy.overrides]]
+module="typeguard"
+ignore_missing_imports = true

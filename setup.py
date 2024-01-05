@@ -28,4 +28,9 @@ setup(
     version_config=True,
     setup_requires=["setuptools-git-versioning"],
     package_data={"strictly_typed_pandas": ["py.typed"]},
+    entry_points={
+        "pytest11": [
+            "strictly_typed_pandas = strictly_typed_pandas.pytest_plugin",
+        ],
+    },
 )
