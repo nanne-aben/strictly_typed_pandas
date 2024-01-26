@@ -1,6 +1,6 @@
 mypy==1.8.0
 flake8==7.0.0
-black[jupyter]==23.12.1
+black[jupyter]==24.1.0
 docformatter==1.7.5
 isort==5.13.2
 coverage==7.4.0
