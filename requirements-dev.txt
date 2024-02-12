@@ -10,6 +10,6 @@ jupyter==1.0.0
 sphinx<=7.2.6
 sphinx_rtd_theme==2.0.0
 nbsphinx==0.9.3
-pre-commit<=3.6.0
+pre-commit<=3.6.1
 types-setuptools==69.0.0.20240125
 pyarrow==15.0.0
