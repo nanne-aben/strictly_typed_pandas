@@ -105,9 +105,8 @@ class DataSet(Generic[T], DataSetBase):
         To make sure that the DataSet._schema_annotations variable isn't reused globally, we
         generate a subclass of the ``DataSet`` with the schema annotations as a class variable.
         """
-        subclass_name = f"{cls.__name__}[{item.__name__}]"
-        subclass = type(subclass_name, (cls,), {"_schema_annotations": item})
-        return subclass
+        cls._schema_annotations = item
+        return cls
 
     def _continue_initialization(self) -> None:
         schema_expected = get_type_hints(self._schema_annotations)
