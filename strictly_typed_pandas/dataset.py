@@ -105,8 +105,8 @@ class DataSet(Generic[T], DataSetBase):
         the schema annotations are provided.
         """
         dataframe = pd.DataFrame(*args, **kwargs)
-        dataframe = cast(DataSetBase, dataframe)
-        dataframe.__class__ = DataFrame
+        dataframe = cast(DataSet, dataframe)
+        dataframe.__class__ = DataSet
 
         # first we reset the schema annotations to None, in case they are inherrited through the
         # passed DataFrame
