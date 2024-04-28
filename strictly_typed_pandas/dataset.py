@@ -1,6 +1,6 @@
 import inspect
 from abc import ABC, abstractmethod
-from typing import Any, Generic, TypeVar, cast, get_type_hints
+from typing import Any, Generic, TypeVar, get_type_hints
 
 import pandas as pd
 
