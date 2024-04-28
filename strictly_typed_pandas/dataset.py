@@ -21,6 +21,19 @@ dataframe_member_names = dict(inspect.getmembers(pd.DataFrame)).keys()
 
 
 class DataSetBase(pd.DataFrame, ABC):
+    def __new__(cls, *args, **kwargs):
+        dataframe = super().__new__(*args, **kwargs)
+    
+        # first we reset the schema annotations to None, in case they are inherrited through the
+        # passed DataFrame
+        dataframe._schema_annotations = None  # type: ignore
+
+        # then we use the class' schema annotations to validate the schema and add metadata
+        if hasattr(cls, "_schema_annotations"):
+            dataframe._schema_annotations = cls._schema_annotations  # type: ignore
+
+        return dataframe  # type: ignore
+
     def __init__(self, *args, **kwargs) -> None:
         """This class is a subclass of `pd.DataFrame`, hence it is initialized with the
         same parameters as a `DataFrame`.
