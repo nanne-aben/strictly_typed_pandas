@@ -112,7 +112,7 @@ class DataSet(Generic[T], DataSetBase):
         return subclass
 
     def _continue_initialization(self) -> None:
-        schema_expected = get_type_hints(self._schema_annotations[0])
+        schema_expected = get_type_hints(self._schema_annotations)
 
         if self.shape == (0, 0):
             df = create_empty_dataframe(schema_expected)
