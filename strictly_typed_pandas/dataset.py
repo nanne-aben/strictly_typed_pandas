@@ -1,6 +1,6 @@
 import inspect
 from abc import ABC, abstractmethod
-from typing import Any, Generic, TypeVar, get_type_hints
+from typing import Any, Generic, TypeVar, cast, get_type_hints
 
 import pandas as pd
 
@@ -42,7 +42,7 @@ class DataSetBase(pd.DataFrame, ABC):
             dataframe._schema_annotations = cls._schema_annotations  # type: ignore
 
         return dataframe  # type: ignore
-    
+
     def __init__(self, *args, **kwargs) -> None:
         """This class is a subclass of `pd.DataFrame`, hence it is initialized with the
         same parameters as a `DataFrame`.
