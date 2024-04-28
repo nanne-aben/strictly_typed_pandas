@@ -165,14 +165,14 @@ class IndexedDataSet(Generic[T, V], DataSetBase):
             (cls,),
             {
                 "_schema_index": item[0],
-                "_schema_data": item[1],
+                "_schema_annotations": item[1],
             }
         )
         return subclass
 
     def _continue_initialization(self) -> None:
         schema_index_expected = get_type_hints(self._schema_index)
-        schema_data_expected = get_type_hints(self._schema_data)
+        schema_data_expected = get_type_hints(self._schema_annotations)
 
         check_for_duplicate_columns(
             set(schema_index_expected.keys()), set(schema_data_expected.keys())
