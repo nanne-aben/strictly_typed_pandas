@@ -122,7 +122,7 @@ class B:
 def test_resetting_of_schema_annotations():
     df = DataSet[A]()
 
-    a: DataFrame
+    a: pd.DataFrame
 
     # if no schema is specified, the annotation should be None
     a = DataSet(df)
