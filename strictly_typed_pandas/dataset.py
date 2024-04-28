@@ -95,28 +95,11 @@ class DataSet(Generic[T], DataSetBase):
         * `mypy` for type checking during linting-time (i.e. while you write your code).
         * `typeguard` (<3.0) for type checking during run-time (i.e. while you run your unit tests).
     """
-    def __new__(cls, *args, **kwargs) -> "DataSet":
-        """``__new__()`` instantiates the object (prior to ``__init__()``).
-        Here, we simply take the provided ``df`` and cast it to a
-        ``DataSet``. This allows us to bypass the ``DataFrame``
-        constuctor in ``__init__()``, which requires parameters that may
-        be difficult to access.
-        be difficult to access. Subsequently, we perform schema validation, if
-        the schema annotations are provided.
-        """
-        dataframe = pd.DataFrame(*args, **kwargs)
-        dataframe = cast(DataSet, dataframe)
-        dataframe.__class__ = DataSet
+    def __init__(self, *args, **kwargs):
+        if hasattr(self, "_schema_annotations"):
+            self._continue_initialization()
 
-        # first we reset the schema annotations to None, in case they are inherrited through the
-        # passed DataFrame
-        dataframe._schema_annotations = None  # type: ignore
-
-        # then we use the class' schema annotations to validate the schema and add metadata
-        if hasattr(cls, "_schema_annotations"):
-            dataframe._schema_annotations = cls._schema_annotations  # type: ignore
-
-        return dataframe  # type: ignore
+        super().__init__(*args, **kwargs)
 
     def __class_getitem__(cls, item):
         """Allows us to define a schema for the ``DataSet``.
