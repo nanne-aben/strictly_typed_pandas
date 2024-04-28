@@ -158,16 +158,9 @@ class IndexedDataSet(Generic[T, V], DataSetBase):
         To make sure that the DataSet._schema_annotations variable isn't reused globally, we
         generate a subclass of the ``DataSet`` with the schema annotations as a class variable.
         """
-        subclass_name = f"{cls.__name__}[{item[0].__name__}, {item[1].__name__}]"
-        subclass = type(
-            subclass_name,
-            (cls,),
-            {
-                "_schema_index": item[0],
-                "_schema_annotations": item[1],
-            }
-        )
-        return subclass
+        cls._schema_index = item[0]
+        cls._schema_annotations = item[1]
+        return cls
 
     def _continue_initialization(self) -> None:
         schema_index_expected = get_type_hints(self._schema_index)
