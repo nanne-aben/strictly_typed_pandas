@@ -57,20 +57,6 @@ class DataSetBase(pd.DataFrame, ABC):
             )
             raise TypeError(msg)
 
-        # In Python 3.6, self._schema_annotations is set before __init__() is called, hence we continue here
-        if hasattr(self, "_schema_annotations"):
-            self._continue_initialization()
-
-    def __class_getitem__(cls, item):
-        """Allows us to define a schema for the ``DataSet``.
-
-        To make sure that the DataSet._schema_annotations variable isn't reused globally, we
-        generate a subclass of the ``DataSet`` with the schema annotations as a class variable.
-        """
-        subclass_name = f"{cls.__name__}[{item.__name__}]"
-        subclass = type(subclass_name, (cls,), {"_schema_annotations": item})
-        return subclass
-
     def __setattr__(self, name: str, value: Any) -> None:
         object.__setattr__(self, name, value)
 
@@ -131,6 +117,15 @@ class DataSet(Generic[T], DataSetBase):
         * `mypy` for type checking during linting-time (i.e. while you write your code).
         * `typeguard` (<3.0) for type checking during run-time (i.e. while you run your unit tests).
     """
+    def __class_getitem__(cls, item):
+        """Allows us to define a schema for the ``DataSet``.
+
+        To make sure that the DataSet._schema_annotations variable isn't reused globally, we
+        generate a subclass of the ``DataSet`` with the schema annotations as a class variable.
+        """
+        subclass_name = f"{cls.__name__}[{item.__name__}]"
+        subclass = type(subclass_name, (cls,), {"_schema_annotations": item})
+        return subclass
 
     def _continue_initialization(self) -> None:
         schema_expected = get_type_hints(self._schema_annotations[0])
