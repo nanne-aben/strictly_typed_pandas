@@ -111,8 +111,16 @@ def test_pickle():
     assert (df == loaded).all().all()
 
 
+class A:
+    a: int
+
+
+class B:
+    a: int
+
+
 def test_resetting_of_schema_annotations():
-    df = DataSet[Schema]()
+    df = DataSet[A]()
 
     a: DataFrame
 
@@ -120,14 +128,14 @@ def test_resetting_of_schema_annotations():
     a = DataSet(df)
     assert a._schema_annotations is None
 
-    # when we specify a schema, the class variable will be set to Schema, but afterwards it should be
+    # when we specify a schema, the class variable will be set to A, but afterwards it should be
     # reset to None again when we initialize a new object without specifying a schema
-    DataSet[Schema]
+    DataSet[A]
     a = DataSet(df)
     assert a._schema_annotations is None
 
-    # and then to AlternativeSchena
-    a = DataSet[AlternativeSchema](df)
+    # and then to B
+    a = DataSet[B](df)
     assert a._schema_annotations == B
 
     # and then to None again
