@@ -95,7 +95,7 @@ class DataSet(Generic[T], DataSetBase):
         * `mypy` for type checking during linting-time (i.e. while you write your code).
         * `typeguard` (<3.0) for type checking during run-time (i.e. while you run your unit tests).
     """
-    def __new__(cls, *args, **kwargs) -> "DataSetBase":
+    def __new__(cls, *args, **kwargs) -> "DataSet":
         """``__new__()`` instantiates the object (prior to ``__init__()``).
         Here, we simply take the provided ``df`` and cast it to a
         ``DataSet``. This allows us to bypass the ``DataFrame``
