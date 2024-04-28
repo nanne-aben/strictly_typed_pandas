@@ -21,6 +21,28 @@ dataframe_member_names = dict(inspect.getmembers(pd.DataFrame)).keys()
 
 
 class DataSetBase(pd.DataFrame, ABC):
+    def __new__(cls, *args, **kwargs) -> "DataSetBase":
+        """``__new__()`` instantiates the object (prior to ``__init__()``).
+        Here, we simply take the provided ``df`` and cast it to a
+        ``DataSet``. This allows us to bypass the ``DataFrame``
+        constuctor in ``__init__()``, which requires parameters that may
+        be difficult to access.
+        be difficult to access. Subsequently, we perform schema validation, if
+        the schema annotations are provided.
+        """
+        dataframe = pd.DataFrame(*args, **kwargs)
+        dataframe = cast(DataSetBase, dataframe)
+
+        # first we reset the schema annotations to None, in case they are inherrited through the
+        # passed DataFrame
+        dataframe._schema_annotations = None  # type: ignore
+
+        # then we use the class' schema annotations to validate the schema and add metadata
+        if hasattr(cls, "_schema_annotations"):
+            dataframe._schema_annotations = cls._schema_annotations  # type: ignore
+
+        return dataframe  # type: ignore
+    
     def __init__(self, *args, **kwargs) -> None:
         """This class is a subclass of `pd.DataFrame`, hence it is initialized with the
         same parameters as a `DataFrame`.
@@ -39,16 +61,18 @@ class DataSetBase(pd.DataFrame, ABC):
         if hasattr(self, "_schema_annotations"):
             self._continue_initialization()
 
+    def __class_getitem__(cls, item):
+        """Allows us to define a schema for the ``DataSet``.
+
+        To make sure that the DataSet._schema_annotations variable isn't reused globally, we
+        generate a subclass of the ``DataSet`` with the schema annotations as a class variable.
+        """
+        subclass_name = f"{cls.__name__}[{item.__name__}]"
+        subclass = type(subclass_name, (cls,), {"_schema_annotations": item})
+        return subclass
+
     def __setattr__(self, name: str, value: Any) -> None:
         object.__setattr__(self, name, value)
-
-        if name == "__orig_class__" and hasattr(self.__orig_class__, "__args__"):
-            self._schema_annotations = value.__args__
-
-            # In Python 3.7 and above, self._schema_annotations is set after the __init__() is wrapped up, hence we
-            # continue from here
-            if hasattr(self, "shape"):
-                self._continue_initialization()
 
         if name in self.columns and name not in dataframe_member_names:
             raise NotImplementedError(immutable_error_msg)
