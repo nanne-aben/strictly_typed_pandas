@@ -109,3 +109,26 @@ def test_pickle():
         loaded = pickle.load(open(f"{tmpdir}/test.pkl", "rb"))
 
     assert (df == loaded).all().all()
+
+def test_resetting_of_schema_annotations(spark: SparkSession):
+    df = DataSet[A]()
+
+    a: DataFrame
+
+    # if no schema is specified, the annotation should be None
+    a = DataSet(df)
+    assert a._schema_annotations is None
+
+    # when we specify a schema, the class variable will be set to Schema, but afterwards it should be
+    # reset to None again when we initialize a new object without specifying a schema
+    DataSet[Schema]
+    a = DataSet(df)
+    assert a._schema_annotations is None
+
+    # and then to AlternativeSchena
+    a = DataSet[AlternativeSchema](df)
+    assert a._schema_annotations == B
+
+    # and then to None again
+    a = DataSet(df)
+    assert a._schema_annotations is None
