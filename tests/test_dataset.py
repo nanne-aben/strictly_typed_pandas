@@ -111,8 +111,8 @@ def test_pickle():
     assert (df == loaded).all().all()
 
 
-def test_resetting_of_schema_annotations(spark: SparkSession):
-    df = DataSet[A]()
+def test_resetting_of_schema_annotations():
+    df = DataSet[Schema]()
 
     a: DataFrame
 
