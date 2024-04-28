@@ -22,7 +22,7 @@ dataframe_member_names = dict(inspect.getmembers(pd.DataFrame)).keys()
 
 class DataSetBase(pd.DataFrame, ABC):
     def __new__(cls, *args, **kwargs):
-        dataframe = super().__new__(cls, *args, **kwargs)
+        dataframe = super().__new__(cls)
 
         # first we reset the schema annotations to None, in case they are inherrited through the
         # passed DataFrame
