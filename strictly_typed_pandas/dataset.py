@@ -164,8 +164,8 @@ class IndexedDataSet(Generic[T, V], DataSetBase):
             subclass_name,
             (cls,),
             {
-                "_schema_data": item[0],
-                "_schema_data"
+                "_schema_index": item[0],
+                "_schema_data": item[1],
             }
         )
         return subclass
