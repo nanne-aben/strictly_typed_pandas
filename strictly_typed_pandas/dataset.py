@@ -106,6 +106,7 @@ class DataSet(Generic[T], DataSetBase):
         """
         dataframe = pd.DataFrame(*args, **kwargs)
         dataframe = cast(DataSetBase, dataframe)
+        dataframe.__class__ = DataFrame
 
         # first we reset the schema annotations to None, in case they are inherrited through the
         # passed DataFrame
