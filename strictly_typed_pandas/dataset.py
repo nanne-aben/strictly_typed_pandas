@@ -38,7 +38,7 @@ class DataSetBase(pd.DataFrame, ABC):
 
         cls = self.__class__
         if hasattr(cls, "_schema_annotations"):
-            self._schema_annotations = deepcopy(cls._schema_annotations)  # type: ignore
+            self._schema_annotations_2 = deepcopy(cls._schema_annotations)  # type: ignore
             cls._schema_annotations = None
             self._continue_initialization()
 
@@ -114,7 +114,7 @@ class DataSet(Generic[T], DataSetBase):
         return cls
 
     def _continue_initialization(self) -> None:
-        schema_expected = get_type_hints(self._schema_annotations)
+        schema_expected = get_type_hints(self._schema_annotations_2)
 
         if self.shape == (0, 0):
             df = create_empty_dataframe(schema_expected)
