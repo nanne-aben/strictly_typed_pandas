@@ -37,7 +37,7 @@ class DataSetBase(pd.DataFrame, ABC):
 
         cls = self.__class__
         if hasattr(cls, "_schema_annotations"):
-            self._schema_annotations = cls._schema_annotations
+            self._schema_annotations = cls._schema_annotations  # type: ignore
             cls._schema_annotations = None
             self._continue_initialization()
 
