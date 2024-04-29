@@ -1,5 +1,6 @@
 import inspect
 from abc import ABC, abstractmethod
+from copy import deepcopy
 from typing import Any, Generic, TypeVar, get_type_hints
 
 import pandas as pd
@@ -37,7 +38,7 @@ class DataSetBase(pd.DataFrame, ABC):
 
         cls = self.__class__
         if hasattr(cls, "_schema_annotations"):
-            self._schema_annotations = cls._schema_annotations  # type: ignore
+            self._schema_annotations = deepcopy(cls._schema_annotations)  # type: ignore
             cls._schema_annotations = None
             self._continue_initialization()
 
