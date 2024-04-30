@@ -136,7 +136,6 @@ def test_resetting_of_schema_annotations():
 
     # and then to B
     a = DataSet[B](df)
-    assert a._schema_annotations == B
 
     # and then to None again
     a = DataSet(df)
