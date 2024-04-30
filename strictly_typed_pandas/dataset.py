@@ -59,10 +59,6 @@ class DataSetBase(pd.DataFrame, ABC):
     def loc(self) -> _ImmutableLocIndexer:  # type: ignore
         return _ImmutableLocIndexer("loc", self)  # type: ignore
 
-    @abstractmethod
-    def _continue_initialization(self) -> None:
-        pass  # pragma: no cover
-
     def to_dataframe(self) -> pd.DataFrame:
         """Converts the object to a pandas `DataFrame`."""
         return pd.DataFrame(self)
