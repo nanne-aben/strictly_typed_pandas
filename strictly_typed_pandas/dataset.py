@@ -97,6 +97,8 @@ class DataSet(Generic[T], DataSetBase):
         * `typeguard` (<3.0) for type checking during run-time (i.e. while you run your unit tests).
     """
 
+    _schema_annotations = None
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
