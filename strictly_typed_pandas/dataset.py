@@ -110,10 +110,10 @@ class DataSet(Generic[T], DataSetBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        
+
         if DataSet._schema_annotations is None:
             return
-        
+
         schema_expected = get_type_hints(DataSet._schema_annotations)
         DataSet._schema_annotations = None
 
