@@ -36,12 +36,6 @@ class DataSetBase(pd.DataFrame, ABC):
             )
             raise TypeError(msg)
 
-        cls = self.__class__
-        if hasattr(cls, "_schema_annotations"):
-            self._schema_annotations_2 = deepcopy(cls._schema_annotations)  # type: ignore
-            self.__class__._schema_annotations = None  # type: ignore
-            self._continue_initialization()
-
     def __setattr__(self, name: str, value: Any) -> None:
         object.__setattr__(self, name, value)
 
@@ -102,6 +96,14 @@ class DataSet(Generic[T], DataSetBase):
         * `mypy` for type checking during linting-time (i.e. while you write your code).
         * `typeguard` (<3.0) for type checking during run-time (i.e. while you run your unit tests).
     """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        if hasattr(DataSet, "_schema_annotations"):
+            self._schema_annotations_2 = deepcopy(DataSet._schema_annotations)
+            DataSet._schema_annotations = None
+            self._continue_initialization()
 
     def __class_getitem__(cls, item):
         """Allows us to define a schema for the ``DataSet``.
