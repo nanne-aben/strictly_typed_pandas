@@ -39,7 +39,7 @@ class DataSetBase(pd.DataFrame, ABC):
         cls = self.__class__
         if hasattr(cls, "_schema_annotations"):
             self._schema_annotations_2 = deepcopy(cls._schema_annotations)  # type: ignore
-            self.__class__._schema_annotations = None
+            self.__class__._schema_annotations = None  # type: ignore
             self._continue_initialization()
 
     def __setattr__(self, name: str, value: Any) -> None:
