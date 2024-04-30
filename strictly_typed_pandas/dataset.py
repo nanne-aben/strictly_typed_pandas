@@ -102,7 +102,7 @@ class DataSet(Generic[T], DataSetBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        if hasattr(DataSet, "_schema_annotations") & DataSet._schema_annotations is not None:
+        if hasattr(DataSet, "_schema_annotations") and DataSet._schema_annotations is not None:
             self._schema_annotations_2 = deepcopy(DataSet._schema_annotations)
             DataSet._schema_annotations = None
             self._continue_initialization()
