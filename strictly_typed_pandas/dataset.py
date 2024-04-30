@@ -95,11 +95,7 @@ class DataSet(Generic[T], DataSetBase):
     _schema_annotations = None
 
     def __class_getitem__(cls, item):
-        """Allows us to define a schema for the ``DataSet``.
-
-        To make sure that the DataSet._schema_annotations variable isn't reused globally, we
-        generate a subclass of the ``DataSet`` with the schema annotations as a class variable.
-        """
+        """Allows us to define a schema for the ``DataSet``."""
         cls = super().__class_getitem__(item)
         cls._schema_annotations = item
         return cls
@@ -158,11 +154,7 @@ class IndexedDataSet(Generic[T, V], DataSetBase):
     _schema_data = None
 
     def __class_getitem__(cls, item):
-        """Allows us to define a schema for the ``DataSet``.
-
-        To make sure that the DataSet._schema_annotations variable isn't reused globally, we
-        generate a subclass of the ``DataSet`` with the schema annotations as a class variable.
-        """
+        """Allows us to define a schema for the ``DataSet``."""
         cls = super().__class_getitem__(item)
         cls._schema_index = item[0]
         cls._schema_data = item[1]
