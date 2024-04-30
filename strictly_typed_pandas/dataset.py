@@ -154,6 +154,9 @@ class IndexedDataSet(Generic[T, V], DataSetBase):
         * `typeguard` (<3.0) for type checking during run-time (i.e. while you run your unit tests).
     """
 
+    _schema_index = None
+    _schema_data = None
+
     def __class_getitem__(cls, item):
         """Allows us to define a schema for the ``DataSet``.
 
@@ -162,12 +165,17 @@ class IndexedDataSet(Generic[T, V], DataSetBase):
         """
         cls = super().__class_getitem__(item)
         cls._schema_index = item[0]
-        cls._schema_annotations = item[1]
+        cls._schema_data = item[1]
         return cls
 
-    def _continue_initialization(self) -> None:
-        schema_index_expected = get_type_hints(self._schema_index)
-        schema_data_expected = get_type_hints(self._schema_annotations)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if IndexedDataSet._schema_index is None or IndexedDataSet._schema_data is None:
+            return
+    
+        schema_index_expected = get_type_hints(IndexedDataSet._schema_index)
+        schema_data_expected = get_type_hints(IndexedDataSet._schema_data)
 
         check_for_duplicate_columns(
             set(schema_index_expected.keys()), set(schema_data_expected.keys())
