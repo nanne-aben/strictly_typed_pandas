@@ -173,9 +173,11 @@ class IndexedDataSet(Generic[T, V], DataSetBase):
 
         if IndexedDataSet._schema_index is None or IndexedDataSet._schema_data is None:
             return
-    
+
         schema_index_expected = get_type_hints(IndexedDataSet._schema_index)
         schema_data_expected = get_type_hints(IndexedDataSet._schema_data)
+        IndexedDataSet._schema_index = None
+        IndexedDataSet._schema_data = None
 
         check_for_duplicate_columns(
             set(schema_index_expected.keys()), set(schema_data_expected.keys())
