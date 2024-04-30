@@ -1,6 +1,5 @@
 import inspect
 from abc import ABC, abstractmethod
-from copy import deepcopy
 from typing import Any, Generic, TypeVar, get_type_hints
 
 import pandas as pd
@@ -99,14 +98,6 @@ class DataSet(Generic[T], DataSetBase):
 
     _schema_annotations = None
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        if hasattr(DataSet, "_schema_annotations") and DataSet._schema_annotations is not None:
-            self._schema_annotations_2 = deepcopy(DataSet._schema_annotations)
-            DataSet._schema_annotations = None
-            self._continue_initialization()
-
     def __class_getitem__(cls, item):
         """Allows us to define a schema for the ``DataSet``.
 
@@ -117,8 +108,14 @@ class DataSet(Generic[T], DataSetBase):
         cls._schema_annotations = item
         return cls
 
-    def _continue_initialization(self) -> None:
-        schema_expected = get_type_hints(self._schema_annotations_2)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        if DataSet._schema_annotations is None:
+            return
+        
+        schema_expected = get_type_hints(DataSet._schema_annotations)
+        DataSet._schema_annotations = None
 
         if self.shape == (0, 0):
             df = create_empty_dataframe(schema_expected)
