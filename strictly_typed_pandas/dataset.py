@@ -1,5 +1,5 @@
 import inspect
-from abc import ABC, abstractmethod
+from abc import ABC
 from typing import Any, Generic, TypeVar, get_type_hints
 
 import pandas as pd
@@ -35,20 +35,8 @@ class DataSetBase(pd.DataFrame, ABC):
             )
             raise TypeError(msg)
 
-        # In Python 3.6, self._schema_annotations is set before __init__() is called, hence we continue here
-        if hasattr(self, "_schema_annotations"):
-            self._continue_initialization()
-
     def __setattr__(self, name: str, value: Any) -> None:
         object.__setattr__(self, name, value)
-
-        if name == "__orig_class__" and hasattr(self.__orig_class__, "__args__"):
-            self._schema_annotations = value.__args__
-
-            # In Python 3.7 and above, self._schema_annotations is set after the __init__() is wrapped up, hence we
-            # continue from here
-            if hasattr(self, "shape"):
-                self._continue_initialization()
 
         if name in self.columns and name not in dataframe_member_names:
             raise NotImplementedError(immutable_error_msg)
@@ -70,10 +58,6 @@ class DataSetBase(pd.DataFrame, ABC):
     @property
     def loc(self) -> _ImmutableLocIndexer:  # type: ignore
         return _ImmutableLocIndexer("loc", self)  # type: ignore
-
-    @abstractmethod
-    def _continue_initialization(self) -> None:
-        pass  # pragma: no cover
 
     def to_dataframe(self) -> pd.DataFrame:
         """Converts the object to a pandas `DataFrame`."""
@@ -108,8 +92,22 @@ class DataSet(Generic[T], DataSetBase):
         * `typeguard` (<3.0) for type checking during run-time (i.e. while you run your unit tests).
     """
 
-    def _continue_initialization(self) -> None:
-        schema_expected = get_type_hints(self._schema_annotations[0])
+    _schema_annotations = None
+
+    def __class_getitem__(cls, item):
+        """Allows us to define a schema for the ``DataSet``."""
+        cls = super().__class_getitem__(item)
+        cls._schema_annotations = item
+        return cls
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if DataSet._schema_annotations is None:
+            return
+
+        schema_expected = get_type_hints(DataSet._schema_annotations)
+        DataSet._schema_annotations = None
 
         if self.shape == (0, 0):
             df = create_empty_dataframe(schema_expected)
@@ -152,9 +150,26 @@ class IndexedDataSet(Generic[T, V], DataSetBase):
         * `typeguard` (<3.0) for type checking during run-time (i.e. while you run your unit tests).
     """
 
-    def _continue_initialization(self) -> None:
-        schema_index_expected = get_type_hints(self._schema_annotations[0])
-        schema_data_expected = get_type_hints(self._schema_annotations[1])
+    _schema_index = None
+    _schema_data = None
+
+    def __class_getitem__(cls, item):
+        """Allows us to define a schema for the ``DataSet``."""
+        cls = super().__class_getitem__(item)
+        cls._schema_index = item[0]
+        cls._schema_data = item[1]
+        return cls
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if IndexedDataSet._schema_index is None or IndexedDataSet._schema_data is None:
+            return
+
+        schema_index_expected = get_type_hints(IndexedDataSet._schema_index)
+        schema_data_expected = get_type_hints(IndexedDataSet._schema_data)
+        IndexedDataSet._schema_index = None
+        IndexedDataSet._schema_data = None
 
         check_for_duplicate_columns(
             set(schema_index_expected.keys()), set(schema_data_expected.keys())
