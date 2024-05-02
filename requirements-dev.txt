@@ -4,7 +4,7 @@ black[jupyter]==24.4.2
 docformatter==1.7.5
 isort==5.13.2
 coverage==7.5.0
-pytest==8.1.1
+pytest==8.2.0
 nbconvert==7.16.4
 jupyter==1.0.0
 sphinx<=7.3.7
