@@ -25,7 +25,7 @@ setup(
     install_requires=get_requirements(),
     python_requires=">=3.8.0",
     classifiers=["Typing :: Typed"],
-    version_config=True,
+    setuptools_git_versioning={"enabled": True},
     setup_requires=["setuptools-git-versioning"],
     package_data={"strictly_typed_pandas": ["py.typed"]},
     entry_points={
