@@ -1,5 +1,5 @@
 mypy==1.10.0
-flake8==7.0.0
+flake8==7.1.0
 black[jupyter]==24.4.2
 docformatter==1.7.5
 isort==5.13.2
