@@ -1,4 +1,4 @@
-from typing import Any, Dict, Set
+from typing import Any, ClassVar, Dict, Set, get_origin
 
 import numpy as np  # type: ignore
 from pandas.api.extensions import ExtensionDtype
@@ -14,7 +14,15 @@ def check_for_duplicate_columns(names_index: Set[str], names_data: Set[str]) -> 
         raise TypeError(msg.format(intersection))
 
 
+def remove_classvars(schema_expected: Dict[str, Any]) -> Dict[str, Any]:
+    return {
+        key: value
+        for key, value in schema_expected.items() if get_origin(value) is not ClassVar
+    }
+
+
 def validate_schema(schema_expected: Dict[str, Any], schema_observed: Dict[str, Any]):
+    schema_expected = remove_classvars(schema_expected)
     _check_names(set(schema_expected.keys()), set(schema_observed.keys()))
     _check_dtypes(schema_expected, schema_observed)
 
