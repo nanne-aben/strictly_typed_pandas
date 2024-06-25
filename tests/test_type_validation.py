@@ -58,14 +58,14 @@ def check_list_of_types(observed, expected_to_match, expected_to_fail):
 
 
 def test_numeric_base_python_types():
-    check_list_of_types(int, [np.int64, np.int_, int], [float, np.float_])
-    check_list_of_types(float, [np.float64, np.float_, float], [int, np.int_])
+    check_list_of_types(int, [np.int64, np.int_, int], [float, np.float64])
+    check_list_of_types(float, [np.float64, float], [int, np.int_])
     check_list_of_types(bool, [np.bool_, bool], [int, np.int_])
 
 
 def test_numpy_types():
-    check_list_of_types(np.int64, [np.int64, np.int_, int], [float, np.float_])
-    check_list_of_types(np.float64, [np.float64, np.float_, float], [int, np.int_])
+    check_list_of_types(np.int64, [np.int64, np.int_, int], [float, np.float64])
+    check_list_of_types(np.float64, [np.float64, float], [int, np.int_])
     check_list_of_types(np.bool_, [np.bool_, bool], [int, np.int_])
     check_list_of_types(
         np.datetime64, [np.datetime64], [np.timedelta64, DatetimeTZDtype(tz="UTC"), np.int_]
@@ -126,7 +126,7 @@ def test_supported_index_data_type():
         int,
         float,
         np.int_,
-        np.float_,
+        np.float64,
         np.datetime64,
         np.timedelta64,
         Any,
