@@ -1,5 +1,6 @@
 import pickle
 import tempfile
+from typing import ClassVar
 
 import numpy as np  # type: ignore
 import pandas as pd
@@ -16,6 +17,11 @@ class Schema:
 
 class AlternativeSchema:
     a: int
+
+
+class SchemaWithClassVar:
+    a: int
+    b: ClassVar[str] = "abc"
 
 
 dictionary = {"a": [1, 2, 3], "b": ["a", "b", "c"]}
@@ -109,6 +115,15 @@ def test_pickle():
         loaded = pickle.load(open(f"{tmpdir}/test.pkl", "rb"))
 
     assert (df == loaded).all().all()
+
+
+def test_classvar_colum_not_allowed():
+    with pytest.raises(TypeError):
+        DataSet[SchemaWithClassVar](dictionary)
+
+
+def test_classvar_colum_not_required():
+    DataSet[SchemaWithClassVar]({"a": [1, 2, 3]})
 
 
 class A:
