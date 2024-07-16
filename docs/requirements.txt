@@ -1,4 +1,4 @@
-sphinx==7.4.3
+sphinx==7.4.4
 sphinx_rtd_theme
 nbsphinx
 jupyter
