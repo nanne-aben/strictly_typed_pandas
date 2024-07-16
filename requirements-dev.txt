@@ -12,4 +12,4 @@ sphinx_rtd_theme==2.0.0
 nbsphinx==0.9.4
 pre-commit<=3.7.1
 types-setuptools==70.3.0.20240710
-pyarrow==16.1.0
+pyarrow==17.0.0
