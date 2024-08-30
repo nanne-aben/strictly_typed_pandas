@@ -6,7 +6,7 @@ isort==5.13.2
 coverage==7.6.1
 pytest==8.3.2
 nbconvert==7.16.4
-jupyter==1.1.0
+jupyter==1.1.1
 sphinx<=8.0.2
 sphinx_rtd_theme==2.0.0
 nbsphinx==0.9.5
