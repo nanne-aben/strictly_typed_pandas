@@ -1,8 +1,8 @@
-mypy==1.15.0
+mypy<=1.15.0
 flake8==7.1.1
 black[jupyter]<=25.1.0
 docformatter==1.7.5
-isort<=5.13.2
+isort==5.13.2
 coverage<=7.6.12
 pytest==8.3.4
 nbconvert==7.16.6
