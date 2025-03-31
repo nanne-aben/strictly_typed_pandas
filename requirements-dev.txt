@@ -11,5 +11,5 @@ sphinx<=8.2.3
 sphinx_rtd_theme==3.0.2
 nbsphinx==0.9.7
 pre-commit<=4.2.0
-types-setuptools<=77.0.2.20250328
+types-setuptools<=78.1.0.20250329
 pyarrow<=19.0.1
