@@ -3,7 +3,7 @@ flake8<=7.3.0
 black[jupyter]<=25.1.0
 docformatter<=1.7.7
 isort<=6.0.1
-coverage<=7.9.1
+coverage<=7.9.2
 pytest<=8.4.1
 nbconvert==7.16.6
 jupyter==1.1.1
