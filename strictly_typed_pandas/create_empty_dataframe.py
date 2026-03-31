@@ -26,7 +26,7 @@ def create_empty_dataframe(schema: Dict[str, Any]) -> pd.DataFrame:
             dtype = "timedelta64[ns]"
 
         if dtype == str:
-            dtype = StringDtype.name
+            dtype = StringDtype().name
 
         res[name] = pd.Series([], dtype=dtype)
 
